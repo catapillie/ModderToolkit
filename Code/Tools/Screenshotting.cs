@@ -82,6 +82,14 @@ public static class Screenshotting
 
     private static readonly Rectangle limit = new(0, 0, 320, 180);
 
+    private static string dialog_instr_selection_a;
+    private static string dialog_instr_selection_b;
+    private static string dialog_hint_enter;
+    private static string dialog_info_scale;
+    private static string dialog_info_exit;
+    private static string dialog_status_success;
+    private static string dialog_status_error;
+
     private static void CaptureLevelBuffer()
     {
         Engine.Instance.GraphicsDevice.SetRenderTarget(Buffer);
@@ -95,6 +103,17 @@ public static class Screenshotting
     private static void EnterScreenshot()
     {
         CaptureLevelBuffer();
+
+        int scale = Module.Settings.ScaleFactor;
+
+        // re-initializing dialogue so that we don't do it every frame.
+        dialog_instr_selection_a    = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_a");
+        dialog_instr_selection_b    = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_b");
+        dialog_hint_enter           = Dialog.Clean("CommunalTools_screenshotting_dialog_hint_enter");
+        dialog_info_scale           = Dialog.Clean("CommunalTools_screenshotting_dialog_info_scale").Replace("$scale", scale.ToString());
+        dialog_info_exit            = Dialog.Clean("CommunalTools_screenshotting_dialog_info_exit");
+        dialog_status_success       = Dialog.Clean("CommunalTools_screenshotting_dialog_status_success");
+        dialog_status_error         = Dialog.Clean("CommunalTools_screenshotting_dialog_status_error");
 
         status = string.Empty;
 
@@ -190,13 +209,14 @@ public static class Screenshotting
             try
             {
                 SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
-                status = $"Successfully saved in screenshot as {name}.png!";
+                status = dialog_status_success.Replace("$name", $"\"{name}.png\"");
+                Console.WriteLine(status);
                 statusColor = Color.White;
             }
             catch (Exception ex)
             {
                 ex.LogDetailed();
-                status = "Could not save screenshot.\n" + ex.GetType().FullName + ": " + ex.Message;
+                status = dialog_status_error + "\n" + ex.GetType().FullName + ": " + ex.Message;
                 statusColor = Calc.HexToColor("f03434");
             }
 
@@ -270,11 +290,12 @@ public static class Screenshotting
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Engine.ScreenMatrix);
 
         int scale = Module.Settings.ScaleFactor;
-
         float opacity = Ease.SineInOut(fadeLerp * (1 - focusLerp));
-        ActiveFont.DrawOutline("Select a region to screenshot", new(middle.X, 64), new(0.5f, 0.0f), Vector2.One, Color.White * opacity, 2f, Color.Black * opacity);
-        ActiveFont.DrawOutline("Or press ENTER to capture the entire screen", new(middle.X, 128), new(0.5f, 0.0f), Vector2.One * 0.75f, Color.White * opacity, 2f, Color.Black * opacity);
-        ActiveFont.DrawOutline($"Screenshots are currently configured to be upscaled by {scale}. This can be changed in mod settings.\nYou can exit this menu by pressing F11 or ESCAPE.", new(middle.X, Engine.Height - 64), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+
+        ActiveFont.DrawOutline(dialog_instr_selection_a, new(middle.X, 64), new(0.5f, 0.0f), Vector2.One, Color.White * opacity, 2f, Color.Black * opacity);
+        ActiveFont.DrawOutline(dialog_hint_enter, new(middle.X, 128), new(0.5f, 0.0f), Vector2.One * 0.75f, Color.White * opacity, 2f, Color.Black * opacity);
+        ActiveFont.DrawOutline(dialog_info_scale, new(middle.X, Engine.Height - 64), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+        ActiveFont.DrawOutline(dialog_info_exit, new(middle.X, Engine.Height - 32), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
 
         if (focusing)
         {
@@ -287,7 +308,7 @@ public static class Screenshotting
             {
                 opacity = helpLerp;
                 float ease = Ease.QuadInOut(helpLerp);
-                ActiveFont.DrawOutline("Press ENTER to capture this region or hit ESCAPE to cancel the selection", new(middle.X, 96 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+                ActiveFont.DrawOutline(dialog_instr_selection_b, new(middle.X, 96 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
             }
         }
 
@@ -303,7 +324,7 @@ public static class Screenshotting
         Vector2 middle = new Vector2(Engine.Width, Engine.Height) / 2f;
         float ease = Calc.Clamp(Ease.QuintOut(statusLerp), 0f, 1f);
 
-        ActiveFont.DrawOutline(status, new(middle.X, 96 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, statusColor * ease, 2f, Color.Black * ease);
+        ActiveFont.DrawOutline(status, new(middle.X, 64 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, statusColor * ease, 2f, Color.Black * ease);
 
         Draw.SpriteBatch.End();
     }

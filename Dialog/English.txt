@@ -21,3 +21,11 @@ modoptions_CommunalTools_ScaleFactor_desc=The scale factor applied on screenshot
 
 modoptions_CommunalTools_ScreenshotStatus=Screenshot Status
 modoptions_CommunalTools_ScreenshotStatus_desc=Whether screenshot status should be displayed after a save.
+
+CommunalTools_screenshotting_dialog_instr_selection_a=Select a region to screenshot
+CommunalTools_screenshotting_dialog_instr_selection_b=Press ENTER to capture this region or hit ESCAPE to cancel the selection
+CommunalTools_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen
+CommunalTools_screenshotting_dialog_info_scale=Screenshots are currently configured to be upscaled by $scale. This can be changed in mod settings.
+CommunalTools_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
+CommunalTools_screenshotting_dialog_status_success=Successfully saved as $name
+CommunalTools_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
