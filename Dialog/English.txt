@@ -9,6 +9,7 @@ modoptions_CommunalTools_Screenshotting_desc=Enables or disables access to the s
 
 modoptions_CommunalTools_NameStyle=Name Style
 modoptions_CommunalTools_NameStyle_desc=Determines how saved screenshots are named.
+
 modoptions_CommunalTools_ScreenshotNameStyle_Short=Short
 modoptions_CommunalTools_ScreenshotNameStyle_Short_info=Compact naming, that can be sorted by time.
 modoptions_CommunalTools_ScreenshotNameStyle_Long=Long
@@ -17,3 +18,6 @@ modoptions_CommunalTools_ScreenshotNameStyle_example=For example
 
 modoptions_CommunalTools_ScaleFactor=Scale Factor
 modoptions_CommunalTools_ScaleFactor_desc=The scale factor applied on screenshots before they are saved.
+
+modoptions_CommunalTools_ScreenshotStatus=Screenshot Status
+modoptions_CommunalTools_ScreenshotStatus_desc=Whether screenshot status should be displayed after a save.

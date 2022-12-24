@@ -2,9 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Monocle;
+using MonoMod.Utils;
 using System;
 using System.Data.SqlTypes;
+using System.Drawing.Text;
 using System.IO;
+using System.IO.Ports;
+using System.Xml.Linq;
 
 namespace Celeste.Mod.CommunalTools.Tools;
 
@@ -35,6 +39,8 @@ public static class Screenshotting
 
     private static void Mod_Level_Update(On.Celeste.Level.orig_Update orig, Level self)
     {
+        UpdateStatus();
+
         if (screenshotting)
         {
             UpdateScreenshot();
@@ -60,12 +66,19 @@ public static class Screenshotting
         }
 
         orig(self);
+
+        if (Module.Settings.ScreenshotStatus)
+            RenderStatus();
     }
 
     private static float fadeLerp, focusLerp, helpLerp;
     private static Vector2 mouse, click;
     private static Vector2 sa, sb;
     private static bool focusing;
+
+    private static float statusLerp;
+    private static string status = string.Empty;
+    private static Color statusColor = Color.White;
 
     private static readonly Rectangle limit = new(0, 0, 320, 180);
 
@@ -83,7 +96,9 @@ public static class Screenshotting
     {
         CaptureLevelBuffer();
 
-        fadeLerp = focusLerp = 0f;
+        status = string.Empty;
+
+        fadeLerp = focusLerp = helpLerp = statusLerp = 0f;
         click = mouse = Vector2.Zero;
         focusing = false;
 
@@ -93,6 +108,7 @@ public static class Screenshotting
 
     private static void ExitScreenshot()
     {
+        statusLerp = 14;
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
     }
@@ -104,7 +120,7 @@ public static class Screenshotting
         if (w <= 0)
             throw new ArgumentOutOfRangeException(nameof(w), "Screenshot width must be strictly positive");
         if (h <= 0)
-            throw new ArgumentOutOfRangeException(nameof(w), "Screenshot height must be stricly positive");
+            throw new ArgumentOutOfRangeException(nameof(h), "Screenshot height must be stricly positive");
 
         Rectangle region = new(x, y, w, h);
 
@@ -171,7 +187,18 @@ public static class Screenshotting
 
             int scale = Module.Settings.ScaleFactor;
 
-            SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
+            try
+            {
+                SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
+                status = $"Successfully saved in screenshot as {name}.png!";
+                statusColor = Color.White;
+            }
+            catch (Exception ex)
+            {
+                ex.LogDetailed();
+                status = "Could not save screenshot.\n" + ex.GetType().FullName + ": " + ex.Message;
+                statusColor = Calc.HexToColor("f03434");
+            }
 
             ExitScreenshot();
             return;
@@ -192,6 +219,11 @@ public static class Screenshotting
 
         if (MInput.Keyboard.Pressed(Keys.F11))
             ExitScreenshot();
+    }
+
+    private static void UpdateStatus()
+    {
+        statusLerp = Calc.Approach(statusLerp, 0f, Engine.DeltaTime * 4f);
     }
 
     private static void RenderOverlay()
@@ -255,9 +287,23 @@ public static class Screenshotting
             {
                 opacity = helpLerp;
                 float ease = Ease.QuadInOut(helpLerp);
-                ActiveFont.DrawOutline("Press ENTER to capture this region or hit ESCAPE to cancel the selection", new(middle.X, MathHelper.Lerp(0, 96, ease)), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+                ActiveFont.DrawOutline("Press ENTER to capture this region or hit ESCAPE to cancel the selection", new(middle.X, 96 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
             }
         }
+
+        Draw.SpriteBatch.End();
+    }
+
+    private static void RenderStatus()
+    {
+        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+
+        Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Engine.ScreenMatrix);
+        
+        Vector2 middle = new Vector2(Engine.Width, Engine.Height) / 2f;
+        float ease = Calc.Clamp(Ease.QuintOut(statusLerp), 0f, 1f);
+
+        ActiveFont.DrawOutline(status, new(middle.X, 96 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, statusColor * ease, 2f, Color.Black * ease);
 
         Draw.SpriteBatch.End();
     }
