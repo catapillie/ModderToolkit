@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Celeste.Mod.CommunalTools.Tools;
+using System;
 
 namespace Celeste.Mod.CommunalTools;
 
@@ -14,6 +15,18 @@ public class Module : EverestModule
         Instance = this;
     }
 
-    public override void Load() { }
-    public override void Unload() { }
+    public override void Initialize()
+    {
+        Screenshotting.Initialize();
+    }
+
+    public override void Load()
+    {
+        Screenshotting.Load();
+    }
+
+    public override void Unload()
+    {
+        Screenshotting.Unload();
+    }
 }
