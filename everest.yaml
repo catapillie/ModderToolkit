@@ -1,0 +1,6 @@
+- Name: CommunalTools
+  Version: 0.0.0
+  DLL: Code/bin/Debug/net452/CommunalTools.dll
+  Dependencies:
+    - Name: Everest
+      Version: 1.3650.0
