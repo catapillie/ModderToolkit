@@ -237,9 +237,12 @@ public static class Screenshotting
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Engine.ScreenMatrix);
 
+        int scale = Module.Settings.ScaleFactor;
+
         float opacity = Ease.SineInOut(fadeLerp * (1 - focusLerp));
         ActiveFont.DrawOutline("Select a region to screenshot", new(middle.X, 64), new(0.5f, 0.0f), Vector2.One, Color.White * opacity, 2f, Color.Black * opacity);
         ActiveFont.DrawOutline("Or press ENTER to capture the entire screen", new(middle.X, 128), new(0.5f, 0.0f), Vector2.One * 0.75f, Color.White * opacity, 2f, Color.Black * opacity);
+        ActiveFont.DrawOutline($"Screenshots are currently configured to be upscaled by {scale}. This can be changed in mod settings.\nYou can exit this menu by pressing F11 or ESCAPE.", new(middle.X, Engine.Height - 64), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
 
         if (focusing)
         {
@@ -252,7 +255,7 @@ public static class Screenshotting
             {
                 opacity = helpLerp;
                 float ease = Ease.QuadInOut(helpLerp);
-                ActiveFont.DrawOutline("Press ENTER to capture this region", new(middle.X, MathHelper.Lerp(0, 64, ease)), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+                ActiveFont.DrawOutline("Press ENTER to capture this region or hit ESCAPE to cancel the selection", new(middle.X, MathHelper.Lerp(0, 96, ease)), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
             }
         }
 
