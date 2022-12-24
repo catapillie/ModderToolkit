@@ -300,10 +300,19 @@ public static class Screenshotting
         if (focusing)
         {
             opacity = Ease.SineInOut(focusLerp);
+
             int w = (int)(sb.X - sa.X) + 1;
             int h = (int)(sb.Y - sa.Y) + 1;
-            ActiveFont.DrawOutline($"{w}x{h}", new Vector2((sa.X + sb.X) / 2f, sa.Y) * 6, new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
-        
+
+            Vector2 at = new Vector2((sa.X + sb.X) / 2f, Calc.Clamp(sa.Y, 6, 180)) * 6;
+            ActiveFont.DrawOutline($"{w}x{h}", at, new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * opacity, 2f, Color.Black * opacity);
+            if (scale != 1)
+            {
+                at = new Vector2((sa.X + sb.X) / 2f, Calc.Clamp(sb.Y + 1, 0, 172)) * 6;
+                ActiveFont.DrawOutline($"{w * scale}x{h * scale}", at, new(0.5f, 0.0f), Vector2.One * 0.3f, Color.White * opacity, 2f, Color.Black * opacity);
+                ActiveFont.DrawOutline($"[x{scale}]", at + Vector2.UnitY * 16, new(0.5f, 0.0f), Vector2.One * 0.3f, Color.White * opacity, 2f, Color.Black * opacity);
+            }
+
             if (helpLerp > 0f)
             {
                 opacity = helpLerp;
