@@ -22,6 +22,9 @@ modoptions_CommunalTools_ScaleFactor_desc=The scale factor applied on screenshot
 modoptions_CommunalTools_ScreenshotStatus=Screenshot Status
 modoptions_CommunalTools_ScreenshotStatus_desc=Whether screenshot status should be displayed after a save.
 
+modoptions_CommunalTools_ScreenshotAudio=Screenshot Audio
+modoptions_CommunalTools_ScreenshotAudio_desc=Whether the screenshot interface plays any sound.
+
 CommunalTools_screenshotting_dialog_instr_selection_a=Select a region to screenshot
 CommunalTools_screenshotting_dialog_instr_selection_b=Press ENTER to capture this region or hit ESCAPE to cancel the selection
 CommunalTools_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen

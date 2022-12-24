@@ -74,10 +74,10 @@ public static class Screenshotting
             RenderStatus();
     }
 
-    private static EventInstance snapshot;
+    private static EventInstance sfx;
 
     private static float fadeLerp, focusLerp, helpLerp;
-    private static Vector2 mouse, click;
+    private static Vector2 mouse, lastMouse, click;
     private static Vector2 sa, sb;
     private static bool focusing;
 
@@ -130,6 +130,9 @@ public static class Screenshotting
         screenshotting = true;
 
         m_Level_StartPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
+
+        if (Module.Settings.ScreenshotAudio)
+            sfx ??= Audio.Play(ModSFX.sfx_screenshot_selection);
     }
 
     private static void ExitScreenshot()
@@ -139,6 +142,12 @@ public static class Screenshotting
         screenshotting = false;
 
         m_Level_EndPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
+
+        if (Module.Settings.ScreenshotAudio && sfx is not null)
+        {
+            Audio.Stop(sfx);
+            sfx = null;
+        }
     }
 
     private static void SaveScreenshot(string path, int x, int y, int w, int h, int scale = 1)
@@ -179,6 +188,8 @@ public static class Screenshotting
 
     private static void UpdateScreenshot()
     {
+        lastMouse = mouse;
+
         fadeLerp = Calc.Approach(fadeLerp, 1f, Engine.DeltaTime * 2f);
         focusLerp = Calc.Approach(focusLerp, MInput.Mouse.CheckLeftButton || focusing ? 1f : 0f, Engine.DeltaTime * 3f);
         helpLerp = Calc.Approach(helpLerp, focusing && !MInput.Mouse.CheckLeftButton ? 1f : 0f, Engine.DeltaTime * 4f);
@@ -191,13 +202,30 @@ public static class Screenshotting
                 if (!focusing)
                 {
                     focusing = true;
-                    Audio.Play(SFX.ui_game_memorial_text_in);
+                    if (Module.Settings.ScreenshotAudio)
+                        Audio.Play(SFX.ui_game_memorial_text_in);
                 }
                 click = mouse;
             }
 
             sa = new(Math.Min(mouse.X, click.X), Math.Min(mouse.Y, click.Y));
             sb = new(Math.Max(mouse.X, click.X), Math.Max(mouse.Y, click.Y));
+
+            if (focusing && sfx is not null)
+            {
+                float movement = Math.Min(1, Vector2.Distance(mouse, lastMouse) / 8);
+                Audio.SetParameter(sfx, "movement", movement);
+            }
+        }
+
+        if (MInput.Mouse.ReleasedLeftButton && focusing)
+        {
+            if (Module.Settings.ScreenshotAudio)
+            {
+                if (sfx is not null)
+                    Audio.SetParameter(sfx, "movement", 0f);
+                Audio.Play(ModSFX.sfx_screenshot_fix_selection);
+            }
         }
 
         if (MInput.Keyboard.Pressed(Keys.Enter))
@@ -224,13 +252,18 @@ public static class Screenshotting
                 SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
                 status = dialog_status_success.Replace("$name", $"\"{name}.png\"");
                 statusColor = Color.White;
+
+                if (Module.Settings.ScreenshotAudio)
+                    Audio.Play(ModSFX.sfx_screenshot_success);
             }
             catch (Exception ex)
             {
                 ex.LogDetailed();
                 status = dialog_status_error + "\n" + ex.GetType().FullName + ": " + ex.Message;
                 statusColor = Calc.HexToColor("f03434");
-                Audio.Play(SFX.ui_main_button_invalid);
+
+                if (Module.Settings.ScreenshotAudio)
+                    Audio.Play(SFX.ui_main_button_invalid);
             }
 
             ExitScreenshot();
@@ -244,7 +277,8 @@ public static class Screenshotting
 
             if (focusing)
             {
-                Audio.Play(SFX.ui_game_memorial_text_out);
+                if (Module.Settings.ScreenshotAudio)
+                    Audio.Play(SFX.ui_game_memorial_text_out);
                 focusing = false;
             }
             else

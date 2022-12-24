@@ -41,8 +41,11 @@ public class Settings : EverestModuleSettings
     [SettingSubText("modoptions_CommunalTools_ScaleFactor_desc")]
     public int ScaleFactor { get; set; } = 1;
 
-    [SettingRange(1, 16)]
     [SettingName("modoptions_CommunalTools_ScreenshotStatus")]
     [SettingSubText("modoptions_CommunalTools_ScreenshotStatus_desc")]
     public bool ScreenshotStatus { get; set; } = true;
+
+    [SettingName("modoptions_CommunalTools_ScreenshotAudio")]
+    [SettingSubText("modoptions_CommunalTools_ScreenshotAudio_desc")]
+    public bool ScreenshotAudio { get; set; } = true;
 }
