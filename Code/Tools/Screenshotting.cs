@@ -1,19 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FMOD.Studio;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Monocle;
 using MonoMod.Utils;
 using System;
-using System.Data.SqlTypes;
-using System.Drawing.Text;
 using System.IO;
-using System.IO.Ports;
-using System.Xml.Linq;
+using System.Reflection;
 
 namespace Celeste.Mod.CommunalTools.Tools;
 
 public static class Screenshotting
 {
+    private static readonly MethodInfo m_Level_StartPauseEffects
+        = typeof(Level).GetMethod("StartPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly MethodInfo m_Level_EndPauseEffects
+        = typeof(Level).GetMethod("EndPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
+
     public static RenderTarget2D Buffer { get; private set; }
     public static RenderTarget2D Overlay { get; private set; }
 
@@ -71,6 +74,8 @@ public static class Screenshotting
             RenderStatus();
     }
 
+    private static EventInstance snapshot;
+
     private static float fadeLerp, focusLerp, helpLerp;
     private static Vector2 mouse, click;
     private static Vector2 sa, sb;
@@ -123,6 +128,8 @@ public static class Screenshotting
 
         Engine.Instance.IsMouseVisible = true;
         screenshotting = true;
+
+        m_Level_StartPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
     }
 
     private static void ExitScreenshot()
@@ -130,6 +137,8 @@ public static class Screenshotting
         statusLerp = 14;
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
+
+        m_Level_EndPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
     }
 
     private static void SaveScreenshot(string path, int x, int y, int w, int h, int scale = 1)
@@ -179,7 +188,11 @@ public static class Screenshotting
             mouse = Calc.Clamp(Calc.Floor(MInput.Mouse.Position / 6f), 0, 0, 320 - 1, 180 - 1);
             if (MInput.Mouse.PressedLeftButton)
             {
-                focusing = true;
+                if (!focusing)
+                {
+                    focusing = true;
+                    Audio.Play(SFX.ui_game_memorial_text_in);
+                }
                 click = mouse;
             }
 
@@ -210,7 +223,6 @@ public static class Screenshotting
             {
                 SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
                 status = dialog_status_success.Replace("$name", $"\"{name}.png\"");
-                Console.WriteLine(status);
                 statusColor = Color.White;
             }
             catch (Exception ex)
@@ -218,6 +230,7 @@ public static class Screenshotting
                 ex.LogDetailed();
                 status = dialog_status_error + "\n" + ex.GetType().FullName + ": " + ex.Message;
                 statusColor = Calc.HexToColor("f03434");
+                Audio.Play(SFX.ui_main_button_invalid);
             }
 
             ExitScreenshot();
@@ -230,15 +243,24 @@ public static class Screenshotting
             Input.ESC.ConsumeBuffer();
 
             if (focusing)
+            {
+                Audio.Play(SFX.ui_game_memorial_text_out);
                 focusing = false;
+            }
             else
+            {
                 ExitScreenshot();
+                Audio.Play(SFX.ui_game_unpause);
+            }
 
             return;
         }
 
         if (MInput.Keyboard.Pressed(Keys.F11))
+        {
             ExitScreenshot();
+            Audio.Play(SFX.ui_game_unpause);
+        }
     }
 
     private static void UpdateStatus()
