@@ -1,0 +1,34 @@
+modname_CommunalTools=Communal Tools
+modoptions_CommunalTools=Communal Tools
+
+
+
+modoptions_CommunalTools_Screenshotting_header=Outil Capture d'écran
+modoptions_CommunalTools_Screenshotting=Captures d'écran
+modoptions_CommunalTools_Screenshotting_desc=Active ou désactive l'accès à l'outil capture d'écran.
+
+modoptions_CommunalTools_NameStyle=Style de nommage
+modoptions_CommunalTools_NameStyle_desc=Détermine comment les capture d'écran sont nommées.
+
+modoptions_CommunalTools_ScreenshotNameStyle_Short=Court
+modoptions_CommunalTools_ScreenshotNameStyle_Short_info=Nom compact, qui peut être trié en fonction du temps.
+modoptions_CommunalTools_ScreenshotNameStyle_Long=Long
+modoptions_CommunalTools_ScreenshotNameStyle_Long_info=Nom plus longs et exhaustifs, qui sont plus lisibles.
+modoptions_CommunalTools_ScreenshotNameStyle_example=Par exemple
+
+modoptions_CommunalTools_ScaleFactor=Échelle
+modoptions_CommunalTools_ScaleFactor_desc=Le coefficient d'agrandissement appliqué aux captures d'écrans avant qu'elle ne soient sauvegardées.
+
+modoptions_CommunalTools_ScreenshotStatus=Status de Capture d'écran
+modoptions_CommunalTools_ScreenshotStatus_desc=Indique le status de la capture d'écran une fois effectuée.
+
+modoptions_CommunalTools_ScreenshotAudio=Audio des Captures d'écran
+modoptions_CommunalTools_ScreenshotAudio_desc=Détermine si l'outil capture d'écran produit du son.
+
+CommunalTools_screenshotting_dialog_instr_selection_a=Sélectionne une région à capturer
+CommunalTools_screenshotting_dialog_instr_selection_b=Appuie sur ENTRÉE pour capture cette région, ou sur ÉCHAP pour annuler la sélection
+CommunalTools_screenshotting_dialog_hint_enter=Ou appuie sur ENTRÉE pour faire une capture de l'écran entier
+CommunalTools_screenshotting_dialog_info_scale=Les captures d'écrans ont actuellement une échelle de $scale. Cette option est modifiable dans les paramètres des mods.
+CommunalTools_screenshotting_dialog_info_exit=Tu peux quitter ce menu en appuyant sur ÉCHAP ou F11.
+CommunalTools_screenshotting_dialog_status_success=Sauvegardé sous $name avec succès
+CommunalTools_screenshotting_dialog_status_error=Une erreur s'est produite lors de la capture d'écran.
