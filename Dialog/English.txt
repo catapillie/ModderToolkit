@@ -1,0 +1,19 @@
+modname_CommunalTools=Communal Tools
+modoptions_CommunalTools=Communal Tools
+
+
+
+modoptions_CommunalTools_Screenshotting_header=Screenshot Tool
+modoptions_CommunalTools_Screenshotting=Screenshotting
+modoptions_CommunalTools_Screenshotting_desc=Enables or disables access to the screenshot tool.
+
+modoptions_CommunalTools_NameStyle=Name Style
+modoptions_CommunalTools_NameStyle_desc=Determines how saved screenshots are named.
+modoptions_CommunalTools_ScreenshotNameStyle_Short=Short
+modoptions_CommunalTools_ScreenshotNameStyle_Short_info=Compact naming, that can be sorted by time.
+modoptions_CommunalTools_ScreenshotNameStyle_Long=Long
+modoptions_CommunalTools_ScreenshotNameStyle_Long_info=Longer, verbose names which are more human-readable.
+modoptions_CommunalTools_ScreenshotNameStyle_example=For example
+
+modoptions_CommunalTools_ScaleFactor=Scale Factor
+modoptions_CommunalTools_ScaleFactor_desc=The scale factor applied on screenshots before they are saved.

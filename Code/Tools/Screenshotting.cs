@@ -43,6 +43,9 @@ public static class Screenshotting
 
         orig(self);
 
+        if (!Module.Settings.Screenshotting)
+            return;
+
         if (MInput.Keyboard.Pressed(Keys.F11))
             EnterScreenshot();
     }
@@ -111,11 +114,11 @@ public static class Screenshotting
         Color[] data = new Color[w * h];
         Buffer.GetData(0, region, data, 0, w * h);
 
-        // native resolution
+        // native resolution screenshot.
         using Texture2D native = new(Engine.Graphics.GraphicsDevice, w, h);
         native.SetData(data);
 
-        // upscaled texture
+        // upscaling texture.
         using RenderTarget2D final = new(Engine.Graphics.GraphicsDevice, w * scale, h * scale);
 
         Engine.Instance.GraphicsDevice.SetRenderTarget(final);
@@ -124,7 +127,7 @@ public static class Screenshotting
         Draw.SpriteBatch.Draw(native, new Rectangle(0, 0, final.Width, final.Height), Color.White);
         Draw.SpriteBatch.End();
 
-        // saving
+        // saving in file.
         Directory.CreateDirectory(Path.GetDirectoryName(path));
         using Stream stream = File.OpenWrite(path);
         final.SaveAsPng(stream, final.Width, final.Height);
@@ -160,13 +163,15 @@ public static class Screenshotting
             int h = focusing ? (int)(sb.Y - sa.Y) + 1 : 180;
 
             Level level = Engine.Scene as Level;
-            DateTime now = DateTime.Now;
-            string today = now.ToString("yyyy-MM-dd");
-            string time = now.ToString("T").Replace(':', '.');
             string room = level.Session.Level;
 
-            string name = $"[1x] {today} at {time} in room {room}";
-            SaveScreenshot($"Screenshots/{name}.png", x, y, w, h);
+            // hopefully create safe name to be saved.
+            string name = Module.Settings.NameStyle.GetName(DateTime.Now, room);
+            name = string.Join("", name.Split(Path.GetInvalidFileNameChars()));
+
+            int scale = Module.Settings.ScaleFactor;
+
+            SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
 
             ExitScreenshot();
             return;
