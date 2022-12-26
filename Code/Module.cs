@@ -16,12 +16,14 @@ public class Module : EverestModule
         Instance = this;
     }
 
-    public override void Initialize() { }
+    public override void Initialize()
+    {
+        if (Settings.Screenshotting) ToolManager.Register<Screenshot>();
+    }
 
     public override void Load()
     {
         ToolManager.Load();
-        ToolManager.Register<Screenshot>();
     }
 
     public override void Unload()
