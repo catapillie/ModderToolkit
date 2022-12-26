@@ -10,6 +10,7 @@ namespace Celeste.Mod.CommunalTools.Tools;
 public static class ToolManager
 {
     private static readonly Dictionary<Type, Tool> tools = new();
+    private static Tool focus;
 
     public static void Register<T>()
         where T : Tool, new()
@@ -38,6 +39,9 @@ public static class ToolManager
         T tool = tools[typeof(T)] as T;
         tools.Remove(typeof(T));
 
+        if (focus == tool)
+            focus = null;
+
         tool.Unregistered();
     }
 
@@ -59,6 +63,32 @@ public static class ToolManager
             throw new InvalidOperationException($"Tool of type {typeof(T)} was never registered!");
 
         return tools[typeof(T)] as T;
+    }
+
+    public static bool Focus<T>()
+        where T : Tool
+    {
+        if (!Has<T>())
+            throw new InvalidOperationException($"Tool of type {typeof(T)} was never registered!");
+
+        if (focus is not null)
+            return false;
+
+        focus = tools[typeof(T)];
+        return true;
+    }
+
+    public static bool Release<T>()
+        where T : Tool
+    {
+        if (!Has<T>())
+            throw new InvalidOperationException($"Tool of type {typeof(T)} was never registered!");
+
+        if (focus != tools[typeof(T)])
+            return false;
+
+        focus = null;
+        return true;
     }
 
     internal static void Load()
@@ -89,37 +119,66 @@ public static class ToolManager
     private static void Mod_Level_Update(On.Celeste.Level.orig_Update orig, Level self)
     {
         bool update = true;
-        foreach (Tool tool in tools.Values)
-            update &= tool.UpdateBefore();
+
+        if (focus is null)
+            foreach (Tool tool in tools.Values)
+                update &= tool.UpdateBefore();
+        else
+            update &= focus.UpdateBefore();
 
         if (update)
             orig(self);
 
-        foreach (Tool tool in tools.Values)
+        if (focus is null)
         {
-            if (!tool.DiscardedUpdate)
-                tool.UpdateAfter();
-
-            tool.DiscardedUpdate = false;
+            foreach (Tool tool in tools.Values)
+            {
+                if (!tool.DiscardedUpdate)
+                    tool.UpdateAfter();
+                tool.DiscardedUpdate = false;
+            }
+        }
+        else
+        {
+            if (!focus.DiscardedUpdate)
+                focus.UpdateAfter();
+            focus.DiscardedUpdate = false;
         }
     }
 
     private static void Mod_Level_Render(On.Celeste.Level.orig_Render orig, Level self)
     {
         bool render = true;
-        foreach (Tool tool in tools.Values)
-            if (!tool.DiscardedRender)
-                render &= tool.RenderBefore();
+
+        if (focus is null)
+        {
+            foreach (Tool tool in tools.Values)
+                if (!tool.DiscardedRender)
+                    render &= tool.RenderBefore();
+        }
+        else
+        {
+            if (!focus.DiscardedRender)
+                render &= focus.RenderBefore();
+        }
 
         if (render)
             orig(self);
 
-        foreach (Tool tool in tools.Values)
+        if (focus is null)
         {
-            if (!tool.DiscardedRender)
-                tool.RenderAfter();
-
-            tool.DiscardedRender = false;
+            foreach (Tool tool in tools.Values)
+            {
+                if (!tool.DiscardedRender)
+                    tool.RenderAfter();
+                tool.DiscardedRender = false;
+            }
+        }
+        else
+        {
+            if (!focus.DiscardedRender)
+                focus.RenderAfter();
+            focus.DiscardedRender = false;
         }
     }
 }

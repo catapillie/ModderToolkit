@@ -81,6 +81,8 @@ public sealed class Screenshot : Tool
 
     private void EnterScreenshot()
     {
+        ToolManager.Focus<Screenshot>();
+
         // capturing frame into buffer
         Engine.Instance.GraphicsDevice.SetRenderTarget(buffer);
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
@@ -117,6 +119,8 @@ public sealed class Screenshot : Tool
 
     private void ExitScreenshot()
     {
+        ToolManager.Release<Screenshot>();
+
         statusLerp = 14;
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
