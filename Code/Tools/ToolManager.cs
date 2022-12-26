@@ -72,7 +72,7 @@ public static class ToolManager
         foreach (Tool tool in tools.Values)
         {
             tool.Level = self;
-            tool.Begin();
+            tool.Restart();
         }
     }
 

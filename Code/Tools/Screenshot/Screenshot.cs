@@ -44,7 +44,7 @@ public sealed class Screenshot : Tool
 
     private static EventInstance sfx;
 
-    public override void Begin()
+    public override void Restart()
     {
         screenshotting = false;
 

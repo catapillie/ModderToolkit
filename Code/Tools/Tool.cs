@@ -16,7 +16,7 @@ public abstract class Tool
     /// <summary>
     /// Called after the <see cref="Level.Level"/> constructor.
     /// </summary>
-    public virtual void Begin() { }
+    public virtual void Restart() { }
 
     /// <summary>
     /// Called when this tool is registered.
