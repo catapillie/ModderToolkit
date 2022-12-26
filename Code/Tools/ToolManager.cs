@@ -23,7 +23,10 @@ public static class ToolManager
         tool.Registered();
 
         if (Engine.Scene is Level level)
+        {
+            tool.Level = level;
             tool.Restart();
+        }
     }
 
     public static void Unregister<T>()
