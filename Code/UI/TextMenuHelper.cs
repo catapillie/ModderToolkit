@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Celeste.Mod.CommunalTools.Tools;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Celeste.Mod.CommunalTools.UI;
 
@@ -40,5 +42,30 @@ public static class TextMenuHelper
         option.OnLeave = (Action)Delegate.Combine(option.OnLeave, () => { descriptionText.FadeVisible = false; });
 
         return descriptionText;
+    }
+
+    public static void CreateToolSwitch<T>(string property, TextMenu menu)
+        where T : Tool, new()
+    {
+        var prop = typeof(Settings).GetProperty(property, BindingFlags.Instance | BindingFlags.Public);
+
+        string name = Dialog.Clean(prop.GetCustomAttribute<SettingNameAttribute>().Name);
+        string desc = Dialog.Clean(prop.GetCustomAttribute<SettingSubTextAttribute>().Description);
+
+        bool value = (bool)prop.GetValue(Module.Settings);
+
+        var item = new TextMenu.OnOff(name, value)
+            .Change(value =>
+            {
+                prop.SetValue(Module.Settings, value);
+                if (value)
+                    ToolManager.Register<T>();
+                else
+                    ToolManager.Unregister<T>();
+            });
+
+        menu.Add(item);
+
+        item.AddDescription(menu, desc);
     }
 }

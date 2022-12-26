@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Celeste.Mod.CommunalTools.Tools;
+namespace Celeste.Mod.CommunalTools.Tools.Screenshot;
 
 public enum ScreenshotNameStyle
 {

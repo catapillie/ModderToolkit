@@ -1,4 +1,4 @@
-using Celeste.Mod.CommunalTools.Tools;
+using Celeste.Mod.CommunalTools.Tools.Screenshot;
 using Celeste.Mod.CommunalTools.UI;
 using System;
 using System.Linq;
@@ -6,12 +6,14 @@ using System.Linq;
 namespace Celeste.Mod.CommunalTools;
 
 [SettingName("modoptions_CommunalTools")]
-public class Settings : EverestModuleSettings
+public sealed class Settings : EverestModuleSettings
 {
     [SettingSubHeader("modoptions_CommunalTools_Screenshotting_header")]
     [SettingName("modoptions_CommunalTools_Screenshotting")]
     [SettingSubText("modoptions_CommunalTools_Screenshotting_desc")]
     public bool Screenshotting { get; set; } = true;
+    public void CreateScreenshottingEntry(TextMenu menu, bool _)
+        => TextMenuHelper.CreateToolSwitch<Screenshot>(nameof(Screenshotting), menu);
 
     //[SettingName("modoptions_CommunalTools_NameStyle")]
     public ScreenshotNameStyle NameStyle { get; set; } = ScreenshotNameStyle.Short;
