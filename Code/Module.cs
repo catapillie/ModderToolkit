@@ -1,4 +1,5 @@
 ﻿using Celeste.Mod.CommunalTools.Tools;
+using Celeste.Mod.CommunalTools.Tools.Screenshot;
 using System;
 
 namespace Celeste.Mod.CommunalTools;
@@ -15,18 +16,17 @@ public class Module : EverestModule
         Instance = this;
     }
 
-    public override void Initialize()
-    {
-        Screenshotting.Initialize();
-    }
+    public override void Initialize() { }
 
     public override void Load()
     {
-        Screenshotting.Load();
+        ToolManager.Load();
+        ToolManager.Register<Screenshot>();
     }
 
     public override void Unload()
     {
-        Screenshotting.Unload();
+        ToolManager.Unload();
+        ToolManager.UnregisterAll();
     }
 }

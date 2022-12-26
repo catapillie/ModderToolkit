@@ -3,122 +3,103 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Monocle;
-using MonoMod.Utils;
-using System;
+using System.Collections.Generic;
 using System.IO;
+using System;
 using System.Reflection;
+using MonoMod.Utils;
 
-namespace Celeste.Mod.CommunalTools.Tools;
+namespace Celeste.Mod.CommunalTools.Tools.Screenshot;
 
-public static class Screenshotting
+public sealed class Screenshot : Tool
 {
     private static readonly MethodInfo m_Level_StartPauseEffects
         = typeof(Level).GetMethod("StartPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
+
     private static readonly MethodInfo m_Level_EndPauseEffects
         = typeof(Level).GetMethod("EndPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
 
-    public static RenderTarget2D Buffer { get; private set; }
-    public static RenderTarget2D Overlay { get; private set; }
+    private static readonly Rectangle bounds = new(0, 0, 320, 180);
 
-    internal static void Initialize()
+    private readonly RenderTarget2D buffer = new(Engine.Graphics.GraphicsDevice, 320, 180);
+    private readonly RenderTarget2D overlay = new(Engine.Graphics.GraphicsDevice, 320, 180);
+
+    private bool screenshotting;
+
+    private static float fadeLerp, focusLerp, helpLerp;
+    private static Vector2 mouse, lastMouse, click;
+
+    private static bool focusing;
+    private static Vector2 sa, sb;
+
+    private static float statusLerp;
+    private static string status;
+
+    private string dialog_instr_selection_a;
+    private string dialog_instr_selection_b;
+    private string dialog_hint_enter;
+    private string dialog_info_scale;
+    private string dialog_info_exit;
+    private string dialog_status_success;
+    private string dialog_status_error;
+
+    private static EventInstance sfx;
+
+    public override void Begin()
     {
-        Buffer = new RenderTarget2D(Engine.Graphics.GraphicsDevice, 320, 180);
-        Overlay = new RenderTarget2D(Engine.Graphics.GraphicsDevice, 320, 180);
+        screenshotting = false;
+
+        fadeLerp = focusLerp = helpLerp = 0f;
+        mouse = lastMouse = click = Vector2.Zero;
+
+        focusing = false;
+        sa = sb = Vector2.Zero;
+
+        statusLerp = 0f;
+        status = string.Empty;
+
+        sfx = null;
     }
 
-    internal static void Load()
-    {
-        On.Celeste.Level.Update += Mod_Level_Update;
-        On.Celeste.Level.Render += Level_Render;
-    }
-
-    internal static void Unload()
-    {
-        On.Celeste.Level.Update -= Mod_Level_Update;
-        On.Celeste.Level.Render -= Level_Render;
-    }
-
-    private static bool screenshotting = false;
-
-    private static void Mod_Level_Update(On.Celeste.Level.orig_Update orig, Level self)
+    public override bool UpdateBefore()
     {
         UpdateStatus();
 
         if (screenshotting)
         {
             UpdateScreenshot();
-            return;
+            return false;
         }
 
-        orig(self);
+        return true;
+    }
 
-        if (!Module.Settings.Screenshotting)
-            return;
-
+    public override void UpdateAfter()
+    {
         if (MInput.Keyboard.Pressed(Keys.F11))
             EnterScreenshot();
     }
 
-    private static void Level_Render(On.Celeste.Level.orig_Render orig, Level self)
+    private void EnterScreenshot()
     {
-        if (screenshotting)
-        {
-            RenderOverlay();
-            RenderPreview();
-            return;
-        }
-
-        orig(self);
-
-        if (Module.Settings.ScreenshotStatus)
-            RenderStatus();
-    }
-
-    private static EventInstance sfx;
-
-    private static float fadeLerp, focusLerp, helpLerp;
-    private static Vector2 mouse, lastMouse, click;
-    private static Vector2 sa, sb;
-    private static bool focusing;
-
-    private static float statusLerp;
-    private static string status = string.Empty;
-    private static Color statusColor = Color.White;
-
-    private static readonly Rectangle limit = new(0, 0, 320, 180);
-
-    private static string dialog_instr_selection_a;
-    private static string dialog_instr_selection_b;
-    private static string dialog_hint_enter;
-    private static string dialog_info_scale;
-    private static string dialog_info_exit;
-    private static string dialog_status_success;
-    private static string dialog_status_error;
-
-    private static void CaptureLevelBuffer()
-    {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(Buffer);
+        // capturing frame into buffer
+        Engine.Instance.GraphicsDevice.SetRenderTarget(buffer);
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, ColorGrade.Effect);
         Draw.SpriteBatch.Draw(GameplayBuffers.Level, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SaveData.Instance.Assists.MirrorMode ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
         Draw.SpriteBatch.End();
-    }
-
-    private static void EnterScreenshot()
-    {
-        CaptureLevelBuffer();
 
         int scale = Module.Settings.ScaleFactor;
 
         // re-initializing dialogue so that we don't do it every frame.
-        dialog_instr_selection_a    = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_a");
-        dialog_instr_selection_b    = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_b");
-        dialog_hint_enter           = Dialog.Clean("CommunalTools_screenshotting_dialog_hint_enter");
-        dialog_info_scale           = Dialog.Clean("CommunalTools_screenshotting_dialog_info_scale").Replace("$scale", scale.ToString());
-        dialog_info_exit            = Dialog.Clean("CommunalTools_screenshotting_dialog_info_exit");
-        dialog_status_success       = Dialog.Clean("CommunalTools_screenshotting_dialog_status_success");
-        dialog_status_error         = Dialog.Clean("CommunalTools_screenshotting_dialog_status_error");
+        dialog_instr_selection_a = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_a");
+        dialog_instr_selection_b = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_b");
+        dialog_hint_enter = Dialog.Clean("CommunalTools_screenshotting_dialog_hint_enter");
+        dialog_info_scale = Dialog.Clean("CommunalTools_screenshotting_dialog_info_scale").Replace("$scale", scale.ToString());
+        dialog_info_exit = Dialog.Clean("CommunalTools_screenshotting_dialog_info_exit");
+        dialog_status_success = Dialog.Clean("CommunalTools_screenshotting_dialog_status_success");
+        dialog_status_error = Dialog.Clean("CommunalTools_screenshotting_dialog_status_error");
 
         status = string.Empty;
 
@@ -135,7 +116,7 @@ public static class Screenshotting
             sfx ??= Audio.Play(ModSFX.sfx_screenshot_selection);
     }
 
-    private static void ExitScreenshot()
+    private void ExitScreenshot()
     {
         statusLerp = 14;
         Engine.Instance.IsMouseVisible = false;
@@ -150,7 +131,7 @@ public static class Screenshotting
         }
     }
 
-    private static void SaveScreenshot(string path, int x, int y, int w, int h, int scale = 1)
+    private void SaveScreenshot(string path, int x, int y, int w, int h, int scale = 1)
     {
         if (scale <= 0)
             throw new ArgumentOutOfRangeException(nameof(scale), "Screenshot scale must be strictly positive.");
@@ -161,11 +142,11 @@ public static class Screenshotting
 
         Rectangle region = new(x, y, w, h);
 
-        if (!limit.Contains(region))
+        if (!bounds.Contains(region))
             throw new ArgumentException("The provided position and size of the region are not contained within the bounds of the screen");
-        
+
         Color[] data = new Color[w * h];
-        Buffer.GetData(0, region, data, 0, w * h);
+        buffer.GetData(0, region, data, 0, w * h);
 
         // native resolution screenshot.
         using Texture2D native = new(Engine.Graphics.GraphicsDevice, w, h);
@@ -186,7 +167,7 @@ public static class Screenshotting
         final.SaveAsPng(stream, final.Width, final.Height);
     }
 
-    private static void UpdateScreenshot()
+    private void UpdateScreenshot()
     {
         lastMouse = mouse;
 
@@ -196,7 +177,7 @@ public static class Screenshotting
 
         if (MInput.Mouse.CheckLeftButton)
         {
-            mouse = Calc.Clamp(Calc.Floor(MInput.Mouse.Position / 6f), 0, 0, 320 - 1, 180 - 1);
+            mouse = (MInput.Mouse.Position / 6f).Floor().Clamp(0, 0, 320 - 1, 180 - 1);
             if (MInput.Mouse.PressedLeftButton)
             {
                 if (!focusing)
@@ -251,7 +232,6 @@ public static class Screenshotting
             {
                 SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
                 status = dialog_status_success.Replace("$name", $"\"{name}.png\"");
-                statusColor = Color.White;
 
                 if (Module.Settings.ScreenshotAudio)
                     Audio.Play(ModSFX.sfx_screenshot_success);
@@ -260,7 +240,6 @@ public static class Screenshotting
             {
                 ex.LogDetailed();
                 status = dialog_status_error + "\n" + ex.GetType().FullName + ": " + ex.Message;
-                statusColor = Calc.HexToColor("f03434");
 
                 if (Module.Settings.ScreenshotAudio)
                     Audio.Play(SFX.ui_main_button_invalid);
@@ -297,17 +276,35 @@ public static class Screenshotting
         }
     }
 
-    private static void UpdateStatus()
+    private void UpdateStatus()
     {
         statusLerp = Calc.Approach(statusLerp, 0f, Engine.DeltaTime * 4f);
     }
 
-    private static void RenderOverlay()
+    public override bool RenderBefore()
     {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(Overlay);
+        if (screenshotting)
+        {
+            RenderOverlay();
+            RenderPreview();
+            return false;
+        }
+
+        return true;
+    }
+
+    public override void RenderAfter()
+    {
+        if (Module.Settings.ScreenshotStatus)
+            RenderStatus();
+    }
+
+    private void RenderOverlay()
+    {
+        Engine.Instance.GraphicsDevice.SetRenderTarget(overlay);
         Engine.Instance.GraphicsDevice.Clear(Color.Transparent);
 
-        Vector2 mouse = Calc.Floor(MInput.Mouse.Position / 6f);
+        Vector2 mouse = (MInput.Mouse.Position / 6f).Floor();
         Color background = Color.Black * (Ease.SineInOut(fadeLerp) * 0.45f + Ease.SineInOut(focusLerp) * 0.45f);
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
@@ -327,7 +324,7 @@ public static class Screenshotting
         Draw.SpriteBatch.End();
     }
 
-    private static void RenderPreview()
+    private void RenderPreview()
     {
         Engine.Instance.GraphicsDevice.SetRenderTarget(null);
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
@@ -335,10 +332,10 @@ public static class Screenshotting
         Matrix matrix = Matrix.CreateScale(6f) * Engine.ScreenMatrix;
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, matrix);
-        
-        Draw.SpriteBatch.Draw(Buffer, Vector2.Zero, Color.White);
-        Draw.SpriteBatch.Draw(Overlay, Vector2.Zero, Color.White);
-        
+
+        Draw.SpriteBatch.Draw(buffer, Vector2.Zero, Color.White);
+        Draw.SpriteBatch.Draw(overlay, Vector2.Zero, Color.White);
+
         Draw.SpriteBatch.End();
 
         Vector2 middle = new Vector2(Engine.Width, Engine.Height) / 2f;
@@ -380,16 +377,16 @@ public static class Screenshotting
         Draw.SpriteBatch.End();
     }
 
-    private static void RenderStatus()
+    private void RenderStatus()
     {
         Engine.Instance.GraphicsDevice.SetRenderTarget(null);
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Engine.ScreenMatrix);
-        
+
         Vector2 middle = new Vector2(Engine.Width, Engine.Height) / 2f;
         float ease = Calc.Clamp(Ease.QuintOut(statusLerp), 0f, 1f);
 
-        ActiveFont.DrawOutline(status, new(middle.X, 64 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, statusColor * ease, 2f, Color.Black * ease);
+        ActiveFont.DrawOutline(status, new(middle.X, 64 * ease), new(0.5f, 1.0f), Vector2.One * 0.5f, Color.White * ease, 2f, Color.Black * ease);
 
         Draw.SpriteBatch.End();
     }
