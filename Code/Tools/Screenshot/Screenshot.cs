@@ -25,14 +25,14 @@ public sealed class Screenshot : Tool
 
     private bool screenshotting;
 
-    private static float fadeLerp, focusLerp, helpLerp;
-    private static Vector2 mouse, lastMouse, click;
+    private float fadeLerp, focusLerp, helpLerp;
+    private Vector2 mouse, lastMouse, click;
 
-    private static bool focusing;
-    private static Vector2 sa, sb;
+    private bool focusing;
+    private Vector2 sa, sb;
 
-    private static float statusLerp;
-    private static string status;
+    private float statusLerp;
+    private string status;
 
     private string dialog_instr_selection_a;
     private string dialog_instr_selection_b;
@@ -42,7 +42,7 @@ public sealed class Screenshot : Tool
     private string dialog_status_success;
     private string dialog_status_error;
 
-    private static EventInstance sfx;
+    private EventInstance sfx;
 
     public override void Restart()
     {
