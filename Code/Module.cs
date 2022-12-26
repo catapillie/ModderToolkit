@@ -1,4 +1,5 @@
 ﻿using Celeste.Mod.CommunalTools.Tools;
+using Celeste.Mod.CommunalTools.Tools.PlayerRecording;
 using Celeste.Mod.CommunalTools.Tools.Screenshot;
 using System;
 
@@ -19,6 +20,7 @@ public class Module : EverestModule
     public override void Initialize()
     {
         if (Settings.Screenshotting) ToolManager.Register<Screenshot>();
+        if (Settings.PlayerRecording) ToolManager.Register<PlayerRecording>();
     }
 
     public override void Load()

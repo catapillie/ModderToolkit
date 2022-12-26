@@ -1,3 +1,4 @@
+using Celeste.Mod.CommunalTools.Tools.PlayerRecording;
 using Celeste.Mod.CommunalTools.Tools.Screenshot;
 using Celeste.Mod.CommunalTools.UI;
 using System;
@@ -8,6 +9,8 @@ namespace Celeste.Mod.CommunalTools;
 [SettingName("modoptions_CommunalTools")]
 public sealed class Settings : EverestModuleSettings
 {
+    #region Screenshot Tool
+
     [SettingSubHeader("modoptions_CommunalTools_Screenshotting_header")]
     [SettingName("modoptions_CommunalTools_Screenshotting")]
     [SettingSubText("modoptions_CommunalTools_Screenshotting_desc")]
@@ -50,4 +53,17 @@ public sealed class Settings : EverestModuleSettings
     [SettingName("modoptions_CommunalTools_ScreenshotAudio")]
     [SettingSubText("modoptions_CommunalTools_ScreenshotAudio_desc")]
     public bool ScreenshotAudio { get; set; } = true;
+
+    #endregion
+
+    #region Player Recording Tool
+
+    [SettingSubHeader("modoptions_CommunalTools_PlayerRecording_header")]
+    [SettingName("modoptions_CommunalTools_PlayerRecording")]
+    [SettingSubText("modoptions_CommunalTools_PlayerRecording_desc")]
+    public bool PlayerRecording { get; set; } = true;
+    public void CreatePlayerRecordingEntry(TextMenu menu, bool _)
+        => TextMenuHelper.CreateToolSwitch<PlayerRecording>(nameof(PlayerRecording), menu);
+
+    #endregion
 }
