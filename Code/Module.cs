@@ -31,4 +31,7 @@ public class Module : EverestModule
         ToolManager.Unload();
         ToolManager.UnregisterAll();
     }
+
+    internal static void Log(string message, LogLevel level = LogLevel.Verbose)
+        => Logger.Log(level, "CommunalTools", message);
 }
