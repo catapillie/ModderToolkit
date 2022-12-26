@@ -5,6 +5,9 @@
 /// </summary>
 public abstract class Tool
 {
+    internal bool DiscardedUpdate { get; set; }
+    internal bool DiscardedRender { get; set; }
+
     /// <summary>
     /// The reference to the current level.
     /// </summary>
@@ -46,4 +49,14 @@ public abstract class Tool
     /// Called after <see cref="Level.Render"/>.
     /// </summary>
     public virtual void RenderAfter() { }
+
+    /// <summary>
+    /// Marks the rest of the update step of this tool to be discarded.
+    /// </summary>
+    public void DiscardUpdate() => DiscardedUpdate = true;
+
+    /// <summary>
+    /// Marks the rest of the render step of this tool to be discarded.
+    /// </summary>
+    public void DiscardRender() => DiscardedRender = true;
 }

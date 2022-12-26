@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Monocle;
-using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Reflection;
@@ -92,7 +91,7 @@ public sealed class Screenshot : Tool
 
         int scale = Module.Settings.ScaleFactor;
 
-        // re-initializing dialogue so that we don't do it every frame.
+        // re-initializing dialogue so that we don't do it every frame
         dialog_instr_selection_a = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_a");
         dialog_instr_selection_b = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_b");
         dialog_hint_enter = Dialog.Clean("CommunalTools_screenshotting_dialog_hint_enter");
@@ -129,6 +128,9 @@ public sealed class Screenshot : Tool
             Audio.Stop(sfx);
             sfx = null;
         }
+
+        // discard the rest of the update, as we might trigger the menu immediately again
+        DiscardUpdate();
     }
 
     private void SaveScreenshot(string path, int x, int y, int w, int h, int scale = 1)
@@ -222,7 +224,7 @@ public sealed class Screenshot : Tool
             Level level = Engine.Scene as Level;
             string room = level.Session.Level;
 
-            // hopefully create safe name to be saved.
+            // hopefully create safe name to be saved
             string name = Module.Settings.NameStyle.GetName(DateTime.Now, room);
             name = string.Join("", name.Split(Path.GetInvalidFileNameChars()));
 
@@ -251,7 +253,7 @@ public sealed class Screenshot : Tool
 
         if (Input.ESC.Pressed)
         {
-            // ESCAPE opens the pause menu, so we consume the input to prevent the pause menu to open.
+            // ESCAPE opens the pause menu, so we consume the input to prevent the pause menu to open
             Input.ESC.ConsumeBuffer();
 
             if (focusing)

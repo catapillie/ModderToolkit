@@ -86,19 +86,30 @@ public static class ToolManager
             orig(self);
 
         foreach (Tool tool in tools.Values)
-            tool.UpdateAfter();
+        {
+            if (!tool.DiscardedUpdate)
+                tool.UpdateAfter();
+
+            tool.DiscardedUpdate = false;
+        }
     }
 
     private static void Mod_Level_Render(On.Celeste.Level.orig_Render orig, Level self)
     {
         bool render = true;
         foreach (Tool tool in tools.Values)
-            render &= tool.RenderBefore();
+            if (!tool.DiscardedRender)
+                render &= tool.RenderBefore();
 
         if (render)
             orig(self);
 
         foreach (Tool tool in tools.Values)
-            tool.RenderAfter();
+        {
+            if (!tool.DiscardedRender)
+                tool.RenderAfter();
+
+            tool.DiscardedRender = false;
+        }
     }
 }
