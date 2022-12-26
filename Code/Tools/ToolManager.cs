@@ -11,6 +11,7 @@ public static class ToolManager
 {
     private static readonly Dictionary<Type, Tool> tools = new();
     private static Tool focus;
+    private static bool locked;
 
     public static void Register<T>()
         where T : Tool, new()
@@ -68,6 +69,9 @@ public static class ToolManager
     public static bool Focus<T>()
         where T : Tool
     {
+        if (locked)
+            throw new InvalidOperationException("Cannot set focus during rendering!");
+
         if (!Has<T>())
             throw new InvalidOperationException($"Tool of type {typeof(T)} was never registered!");
 
@@ -81,6 +85,9 @@ public static class ToolManager
     public static bool Release<T>()
         where T : Tool
     {
+        if (locked)
+            throw new InvalidOperationException("Cannot release focus during rendering!");
+
         if (!Has<T>())
             throw new InvalidOperationException($"Tool of type {typeof(T)} was never registered!");
 
@@ -120,6 +127,8 @@ public static class ToolManager
     {
         bool update = true;
 
+        Tool focus = ToolManager.focus;
+
         if (focus is null)
             foreach (Tool tool in tools.Values)
                 update &= tool.UpdateBefore();
@@ -149,6 +158,8 @@ public static class ToolManager
     private static void Mod_Level_Render(On.Celeste.Level.orig_Render orig, Level self)
     {
         bool render = true;
+
+        locked = true;
 
         if (focus is null)
         {
@@ -180,5 +191,7 @@ public static class ToolManager
                 focus.RenderAfter();
             focus.DiscardedRender = false;
         }
+
+        locked = false;
     }
 }
