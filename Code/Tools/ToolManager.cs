@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monocle;
+using System;
 using System.Collections.Generic;
 
 namespace Celeste.Mod.CommunalTools.Tools;
@@ -20,6 +21,9 @@ public static class ToolManager
         tools.Add(typeof(T), tool);
 
         tool.Registered();
+
+        if (Engine.Scene is Level level)
+            tool.Restart();
     }
 
     public static void Unregister<T>()
@@ -36,6 +40,9 @@ public static class ToolManager
 
     public static void UnregisterAll()
     {
+        foreach (Tool tool in tools.Values)
+            tool.Unregistered();
+
         tools.Clear();
     }
 
