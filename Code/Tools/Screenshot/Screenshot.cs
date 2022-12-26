@@ -109,7 +109,7 @@ public sealed class Screenshot : Tool
         Engine.Instance.IsMouseVisible = true;
         screenshotting = true;
 
-        m_Level_StartPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
+        m_Level_StartPauseEffects.Invoke(Level, new object[] { });
 
         if (Module.Settings.ScreenshotAudio)
             sfx ??= Audio.Play(ModSFX.sfx_screenshot_selection);
@@ -121,7 +121,7 @@ public sealed class Screenshot : Tool
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
 
-        m_Level_EndPauseEffects.Invoke(Engine.Scene as Level, new object[] { });
+        m_Level_EndPauseEffects.Invoke(Level, new object[] { });
 
         if (Module.Settings.ScreenshotAudio && sfx is not null)
         {
@@ -221,8 +221,7 @@ public sealed class Screenshot : Tool
             int w = focusing ? (int)(sb.X - sa.X) + 1 : 320;
             int h = focusing ? (int)(sb.Y - sa.Y) + 1 : 180;
 
-            Level level = Engine.Scene as Level;
-            string room = level.Session.Level;
+            string room = Level.Session.Level;
 
             // hopefully create safe name to be saved
             string name = Module.Settings.NameStyle.GetName(DateTime.Now, room);
