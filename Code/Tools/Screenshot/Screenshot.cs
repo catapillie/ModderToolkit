@@ -7,17 +7,12 @@ using System.IO;
 using System;
 using System.Reflection;
 using MonoMod.Utils;
+using Celeste.Mod.CommunalTools.Utility;
 
 namespace Celeste.Mod.CommunalTools.Tools.Screenshot;
 
 public sealed class Screenshot : Tool
 {
-    private static readonly MethodInfo m_Level_StartPauseEffects
-        = typeof(Level).GetMethod("StartPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
-
-    private static readonly MethodInfo m_Level_EndPauseEffects
-        = typeof(Level).GetMethod("EndPauseEffects", BindingFlags.Instance | BindingFlags.NonPublic);
-
     private static readonly Rectangle bounds = new(0, 0, 320, 180);
 
     private readonly RenderTarget2D buffer = new(Engine.Graphics.GraphicsDevice, 320, 180);
@@ -111,7 +106,7 @@ public sealed class Screenshot : Tool
         Engine.Instance.IsMouseVisible = true;
         screenshotting = true;
 
-        m_Level_StartPauseEffects.Invoke(Level, new object[] { });
+        Level.StartPauseEffects();
 
         if (Module.Settings.ScreenshotAudio)
             sfx ??= Audio.Play(ModSFX.sfx_screenshot_selection);
@@ -125,7 +120,7 @@ public sealed class Screenshot : Tool
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
 
-        m_Level_EndPauseEffects.Invoke(Level, new object[] { });
+        Level.EndPauseEffects();
 
         if (Module.Settings.ScreenshotAudio && sfx is not null)
         {
