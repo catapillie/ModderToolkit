@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Celeste.Mod.CommunalTools.Utility;
-using System.Reflection;
 
 namespace Celeste.Mod.CommunalTools.Tools.PlayerRecording;
 
@@ -51,6 +50,7 @@ public sealed class PlayerRecording : Tool
             {
                 StopRecording();
                 SaveRecording();
+                Audio.Play(ModSFX.sfx_recording_success);
             }
             else
             {
@@ -127,11 +127,25 @@ public sealed class PlayerRecording : Tool
                 return;
             }
 
+            int prev = (int)countdown;
             countdown = Calc.Approach(countdown, 0, Engine.DeltaTime / 0.75f);
+            int num = (int)countdown;
+
+            if (prev != num)
+                Audio.Play((num + 1) switch
+                {
+                    3 => ModSFX.sfx_recording_countdown_three,
+                    2 => ModSFX.sfx_recording_countdown_two,
+                    1 => ModSFX.sfx_recording_countdown_one,
+                    _ => SFX.NONE,
+                });
+
             if (countdown == 0)
             {
                 ToolManager.Release<PlayerRecording>();
                 Level.EndPauseEffects();
+
+                Audio.Play(ModSFX.sfx_recording_go);
 
                 countdownLerp = 0f;
             }
@@ -150,6 +164,7 @@ public sealed class PlayerRecording : Tool
         {
             StopRecording();
             SetStatus("Recording cancelled: room transition was triggered.");
+            Audio.Play(SFX.ui_main_button_invalid);
             return;
         }
 
@@ -158,9 +173,9 @@ public sealed class PlayerRecording : Tool
         {
             StopRecording();
             SetStatus("Recording cancelled: lost track of player.");
+            Audio.Play(SFX.ui_main_button_invalid);
             return;
         }
-
 
         frames.Add(new(player));
 
