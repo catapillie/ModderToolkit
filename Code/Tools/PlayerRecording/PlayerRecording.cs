@@ -117,6 +117,13 @@ public sealed class PlayerRecording : Tool
         status = message;
     }
 
+    private void ErrorHalt(string err)
+    {
+        StopRecording();
+        SetStatus(err);
+        Audio.Play(SFX.ui_main_button_invalid);
+    }
+
     private void UpdateRecording()
     {
         if (countdown > 0)
@@ -167,18 +174,20 @@ public sealed class PlayerRecording : Tool
 
         if (Level.Transitioning)
         {
-            StopRecording();
-            SetStatus("Recording cancelled: room transition was triggered.");
-            Audio.Play(SFX.ui_main_button_invalid);
+            ErrorHalt("Recording cancelled: room transition was triggered.");
             return;
         }
 
         Player player = Level.Tracker.GetEntity<Player>();
         if (player is null)
         {
-            StopRecording();
-            SetStatus("Recording cancelled: lost track of player.");
-            Audio.Play(SFX.ui_main_button_invalid);
+            ErrorHalt("Recording cancelled: lost track of player.");
+            return;
+        }
+
+        if (player.Dead)
+        {
+            ErrorHalt("Recording cancelled: player died.");
             return;
         }
 
