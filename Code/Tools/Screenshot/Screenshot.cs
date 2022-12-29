@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using Monocle;
 using System.IO;
 using System;
-using System.Reflection;
 using MonoMod.Utils;
 using Celeste.Mod.CommunalTools.Utility;
 

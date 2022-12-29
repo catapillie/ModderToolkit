@@ -99,7 +99,12 @@ public sealed class PlayerRecording : Tool
 
     private void SaveRecording()
     {
-        string path = "Playbacks/test.bin";
+        DateTime now = DateTime.Now;
+
+        string name = $"{now:yyyy-MM-dd}_{now.ToString("T").Replace(':', '.')}";
+        name = string.Join("", name.Split(Path.GetInvalidFileNameChars()));
+
+        string path = $"Playbacks/{name}.bin";
         Directory.CreateDirectory(Path.GetDirectoryName(path));
         PlaybackData.Export(frames, path);
 
