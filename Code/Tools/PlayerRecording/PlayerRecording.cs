@@ -49,8 +49,11 @@ public sealed class PlayerRecording : Tool
             if (recording)
             {
                 StopRecording();
-                SaveRecording();
-                Audio.Play(ModSFX.sfx_recording_success);
+                if (countdown == 0)
+                {
+                    SaveRecording();
+                    Audio.Play(ModSFX.sfx_recording_success);
+                }
             }
             else
             {
