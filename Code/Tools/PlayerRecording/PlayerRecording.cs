@@ -56,8 +56,9 @@ public sealed class PlayerRecording : Tool
     {
         statusLerp = Calc.Approach(statusLerp, 0f, Engine.DeltaTime * 4f);
 
-        if (MInput.Keyboard.Check(Keys.LeftShift) && MInput.Keyboard.Pressed(Keys.P))
+        if (Module.Settings.RecordBinding.Pressed)
         {
+            Module.Settings.RecordBinding.ConsumePress();
             if (recording)
             {
                 StopRecording();

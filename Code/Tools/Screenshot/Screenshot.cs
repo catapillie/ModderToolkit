@@ -69,8 +69,11 @@ public sealed class Screenshot : Tool
 
     public override void UpdateAfter()
     {
-        if (MInput.Keyboard.Pressed(Keys.F11))
+        if (Module.Settings.ScreenshotBinding.Pressed)
+        {
+            Module.Settings.ScreenshotBinding.ConsumePress();
             EnterScreenshot();
+        }
     }
 
     private void EnterScreenshot()
@@ -269,9 +272,9 @@ public sealed class Screenshot : Tool
             return;
         }
 
-        if (MInput.Keyboard.Pressed(Keys.F11))
+        if (Module.Settings.ScreenshotBinding.Pressed)
         {
-            ExitScreenshot();
+            Module.Settings.ScreenshotBinding.ConsumePress();
             Audio.Play(SFX.ui_game_unpause);
         }
     }
