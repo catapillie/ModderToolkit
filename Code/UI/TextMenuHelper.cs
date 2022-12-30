@@ -64,6 +64,10 @@ public static class TextMenuHelper
                     ToolManager.Unregister<T>();
             });
 
+        var header = prop.GetCustomAttribute<SettingSubHeaderAttribute>();
+        if (header is not null)
+            menu.Add(new TextMenu.SubHeader(Dialog.Clean(header.SubHeader)));
+
         menu.Add(item);
 
         item.AddDescription(menu, desc);

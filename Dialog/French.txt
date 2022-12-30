@@ -2,10 +2,12 @@ modname_CommunalTools=Communal Tools
 modoptions_CommunalTools=Communal Tools
 
 
-
+# -*- SCREENSHOTTING -*-
 modoptions_CommunalTools_Screenshotting_header=Outil Capture d'écran
 modoptions_CommunalTools_Screenshotting=Captures d'écran
 modoptions_CommunalTools_Screenshotting_desc=Active ou désactive l'accès à l'outil capture d'écran.
+
+modoptions_CommunalTools_ScreenshotBinding=Capturer l'écran
 
 modoptions_CommunalTools_NameStyle=Style de nommage
 modoptions_CommunalTools_NameStyle_desc=Détermine comment les capture d'écran sont nommées.
@@ -32,3 +34,10 @@ CommunalTools_screenshotting_dialog_info_scale=Les captures d'écrans ont actuel
 CommunalTools_screenshotting_dialog_info_exit=Tu peux quitter ce menu en appuyant sur ÉCHAP ou F11.
 CommunalTools_screenshotting_dialog_status_success=Sauvegardé sous $name avec succès
 CommunalTools_screenshotting_dialog_status_error=Une erreur s'est produite lors de la capture d'écran.
+
+# -*- PLAYER RECORDING -*-
+modoptions_CommunalTools_PlayerRecording_header=Outil Enregistrement du joueur
+modoptions_CommunalTools_PlayerRecording=Enregistrements du joueur
+modoptions_CommunalTools_PlayerRecording_desc=Active ou désactive l'accès à l'outil d'enregistrement du joueur.
+
+modoptions_CommunalTools_RecordingBinding=Enregistrer le joueur

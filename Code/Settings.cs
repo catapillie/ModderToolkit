@@ -1,6 +1,7 @@
 using Celeste.Mod.CommunalTools.Tools.PlayerRecording;
 using Celeste.Mod.CommunalTools.Tools.Screenshot;
 using Celeste.Mod.CommunalTools.UI;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Linq;
 
@@ -17,6 +18,10 @@ public sealed class Settings : EverestModuleSettings
     public bool Screenshotting { get; set; } = true;
     public void CreateScreenshottingEntry(TextMenu menu, bool _)
         => TextMenuHelper.CreateToolSwitch<Screenshot>(nameof(Screenshotting), menu);
+
+    [SettingName("modoptions_CommunalTools_ScreenshotBinding")]
+    [DefaultButtonBinding(0, Keys.F8)]
+    public ButtonBinding ScreenshotBinding { get; set; }
 
     //[SettingName("modoptions_CommunalTools_NameStyle")]
     public ScreenshotNameStyle NameStyle { get; set; } = ScreenshotNameStyle.Short;
@@ -64,6 +69,10 @@ public sealed class Settings : EverestModuleSettings
     public bool PlayerRecording { get; set; } = true;
     public void CreatePlayerRecordingEntry(TextMenu menu, bool _)
         => TextMenuHelper.CreateToolSwitch<PlayerRecording>(nameof(PlayerRecording), menu);
+
+    [SettingName("modoptions_CommunalTools_RecordingBinding")]
+    [DefaultButtonBinding(0, Keys.F12)]
+    public ButtonBinding RecordBinding { get; set; }
 
     #endregion
 }

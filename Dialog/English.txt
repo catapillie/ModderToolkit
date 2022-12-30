@@ -2,10 +2,12 @@ modname_CommunalTools=Communal Tools
 modoptions_CommunalTools=Communal Tools
 
 
-
+# -*- SCREENSHOTTING -*-
 modoptions_CommunalTools_Screenshotting_header=Screenshot Tool
 modoptions_CommunalTools_Screenshotting=Screenshotting
 modoptions_CommunalTools_Screenshotting_desc=Enables or disables access to the screenshot tool.
+
+modoptions_CommunalTools_ScreenshotBinding=Screenshot
 
 modoptions_CommunalTools_NameStyle=Name Style
 modoptions_CommunalTools_NameStyle_desc=Determines how saved screenshots are named.
@@ -32,3 +34,10 @@ CommunalTools_screenshotting_dialog_info_scale=Screenshots are currently configu
 CommunalTools_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
 CommunalTools_screenshotting_dialog_status_success=Successfully saved as $name
 CommunalTools_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
+
+# -*- PLAYER RECORDING -*-
+modoptions_CommunalTools_PlayerRecording_header=Player Recording Tool
+modoptions_CommunalTools_PlayerRecording=Player Recording
+modoptions_CommunalTools_PlayerRecording_desc=Enables or disables access to the recording tool.
+
+modoptions_CommunalTools_RecordingBinding=Record
