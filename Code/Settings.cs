@@ -22,29 +22,6 @@ public sealed class Settings : EverestModuleSettings
     [DefaultButtonBinding(0, Keys.F8)]
     public ButtonBinding ScreenshotBinding { get; set; }
 
-    //[SettingName("modoptions_ModderToolkit_NameStyle")]
-    public ScreenshotNameStyle NameStyle { get; set; } = ScreenshotNameStyle.Short;
-    public void CreateNameStyleEntry(TextMenu menu, bool _)
-    {
-        TextMenuExt.EaseInSubHeaderExt info = null;
-
-        var item = new TextMenuExt.EnumSlider<ScreenshotNameStyle>(Dialog.Clean("modoptions_ModderToolkit_NameStyle"), NameStyle)
-            .Change(setting =>
-            {
-                NameStyle = setting;
-                info.Title = setting.Info();
-            });
-
-        item.Values = (Enum.GetValues(typeof(ScreenshotNameStyle)) as ScreenshotNameStyle[])
-            .Select(setting => Tuple.Create(setting.Name(), setting))
-            .ToList();
-
-        menu.Add(item);
-
-        info = item.AddThenGetDescription(menu, NameStyle.Info());
-        item.AddDescription(menu, Dialog.Clean("modoptions_ModderToolkit_NameStyle_desc"));
-    }
-
     [SettingRange(1, 16)]
     [SettingName("modoptions_ModderToolkit_ScaleFactor")]
     [SettingSubText("modoptions_ModderToolkit_ScaleFactor_desc")]

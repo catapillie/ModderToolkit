@@ -226,10 +226,11 @@ public sealed class Screenshot : Tool
             int w = focusing ? (int)(sb.X - sa.X) + 1 : 320;
             int h = focusing ? (int)(sb.Y - sa.Y) + 1 : 180;
 
+            DateTime now = DateTime.Now;
             string room = Level.Session.Level;
 
             // hopefully create safe name to be saved
-            string name = Module.Settings.NameStyle.GetName(DateTime.Now, room);
+            string name = $"{now:yyyy-MM-dd}_{now.ToString("T").Replace(':', '.')}_{room}";
             name = string.Join("", name.Split(Path.GetInvalidFileNameChars()));
 
             int scale = Module.Settings.ScaleFactor;
