@@ -31,7 +31,7 @@ ui_ModderToolkit_screenshotting_dialog_instr_selection_a=Select a region to scre
 ui_ModderToolkit_screenshotting_dialog_instr_selection_b=Press ENTER to capture this region or hit ESCAPE to cancel the selection
 ui_ModderToolkit_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen
 ui_ModderToolkit_screenshotting_dialog_info_scale=Screenshots are currently configured to be upscaled by $scale. This can be changed in mod settings.
-ui_ModderToolkit_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
+ui_ModderToolkit_screenshotting_dialog_info_exit=You can exit this menu by pressing ESCAPE or your screenshot binding.
 ui_ModderToolkit_screenshotting_dialog_status_success=Successfully saved as "$path".
 ui_ModderToolkit_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
 

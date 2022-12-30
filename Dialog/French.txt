@@ -31,7 +31,7 @@ ui_ModderToolkit_screenshotting_dialog_instr_selection_a=Sélectionne une régio
 ui_ModderToolkit_screenshotting_dialog_instr_selection_b=Appuie sur ENTRÉE pour capture cette région, ou sur ÉCHAP pour annuler la sélection
 ui_ModderToolkit_screenshotting_dialog_hint_enter=Ou appuie sur ENTRÉE pour faire une capture de l'écran entier
 ui_ModderToolkit_screenshotting_dialog_info_scale=Les captures d'écrans ont actuellement une échelle de $scale. Cette option est modifiable dans les paramètres des mods.
-ui_ModderToolkit_screenshotting_dialog_info_exit=Tu peux quitter ce menu en appuyant sur ÉCHAP ou F11.
+ui_ModderToolkit_screenshotting_dialog_info_exit=Tu peux quitter ce menu en appuyant sur ÉCHAP ou la touche assignée au menu captures d'écran.
 ui_ModderToolkit_screenshotting_dialog_status_success=Sauvegardé sous "$path" avec succès.
 ui_ModderToolkit_screenshotting_dialog_status_error=Une erreur s'est produite lors de la capture d'écran.
 
