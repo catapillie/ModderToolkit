@@ -67,6 +67,11 @@ public sealed class PlayerRecording : Tool
                     SaveRecording();
                     Audio.Play(ModSFX.sfx_recording_success);
                 }
+                else
+                {
+                    Audio.Play(SFX.ui_game_unpause);
+                    Level.EndPauseEffects();
+                }
             }
             else
             {

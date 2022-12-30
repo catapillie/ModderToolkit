@@ -270,8 +270,8 @@ public sealed class Screenshot : Tool
             }
             else
             {
-                ExitScreenshot();
                 Audio.Play(SFX.ui_game_unpause);
+                ExitScreenshot();
             }
 
             return;
@@ -281,6 +281,7 @@ public sealed class Screenshot : Tool
         {
             Module.Settings.ScreenshotBinding.ConsumePress();
             Audio.Play(SFX.ui_game_unpause);
+            ExitScreenshot();
         }
     }
 
