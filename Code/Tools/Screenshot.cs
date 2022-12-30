@@ -8,7 +8,7 @@ using System;
 using MonoMod.Utils;
 using Celeste.Mod.ModderToolkit.Utility;
 
-namespace Celeste.Mod.ModderToolkit.Tools.Screenshot;
+namespace Celeste.Mod.ModderToolkit.Tools;
 
 public sealed class Screenshot : Tool
 {

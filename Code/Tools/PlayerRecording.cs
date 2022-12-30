@@ -7,10 +7,10 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Celeste.Mod.ModderToolkit.Utility;
 
-namespace Celeste.Mod.ModderToolkit.Tools.PlayerRecording;
+namespace Celeste.Mod.ModderToolkit.Tools;
 
 public sealed class PlayerRecording : Tool
-{   
+{
     private bool recording;
 
     private readonly List<Player.ChaserState> frames = new();
@@ -92,7 +92,7 @@ public sealed class PlayerRecording : Tool
     {
         if (Level.FrozenOrPaused)
             return;
-        
+
         Player player = Level.Tracker.GetEntity<Player>();
         if (player is null)
             return;
@@ -110,7 +110,7 @@ public sealed class PlayerRecording : Tool
 
         recording = true;
     }
-    
+
     private void StopRecording()
     {
         recording = false;

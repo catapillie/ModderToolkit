@@ -1,5 +1,4 @@
-using Celeste.Mod.ModderToolkit.Tools.PlayerRecording;
-using Celeste.Mod.ModderToolkit.Tools.Screenshot;
+using Celeste.Mod.ModderToolkit.Tools;
 using Celeste.Mod.ModderToolkit.UI;
 using Microsoft.Xna.Framework.Input;
 using System;

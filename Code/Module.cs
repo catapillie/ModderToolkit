@@ -1,6 +1,4 @@
 ﻿using Celeste.Mod.ModderToolkit.Tools;
-using Celeste.Mod.ModderToolkit.Tools.PlayerRecording;
-using Celeste.Mod.ModderToolkit.Tools.Screenshot;
 using System;
 
 namespace Celeste.Mod.ModderToolkit;
