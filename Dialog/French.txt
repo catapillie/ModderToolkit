@@ -42,6 +42,9 @@ modoptions_ModderToolkit_PlayerRecording_desc=Active ou désactive l'accès à l
 
 modoptions_ModderToolkit_RecordingBinding=Enregistrer le joueur
 
+modoptions_ModderToolkit_RecordingCountdown=Compte à rebours
+modoptions_ModderToolkit_RecordingCountdown_desc=Détermine si un décompte de trois secondes doit prendre place lorsque qu'un enregistrement est déclenché.
+
 ui_ModderToolkit_recording_dialog_status_success=$count images sauvegardées sous "$path" avec succès.
 ui_ModderToolkit_recording_dialog_status_error_player_death=Enregistrement annulé: joueur mort.
 ui_ModderToolkit_recording_dialog_status_error_player_lost=Enregistrement annulé: joueur perdu.

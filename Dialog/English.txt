@@ -42,6 +42,9 @@ modoptions_ModderToolkit_PlayerRecording_desc=Enables or disables access to the 
 
 modoptions_ModderToolkit_RecordingBinding=Record
 
+modoptions_ModderToolkit_RecordingCountdown=Countdown
+modoptions_ModderToolkit_RecordingCountdown_desc=Whether a three-second countdown must start when a recording is triggered.
+
 ui_ModderToolkit_recording_dialog_status_success=Successfully saved $count frames in "$path".
 ui_ModderToolkit_recording_dialog_status_error_player_death=Recording cancelled: player died.
 ui_ModderToolkit_recording_dialog_status_error_player_lost=Recording cancelled: lost track of player.

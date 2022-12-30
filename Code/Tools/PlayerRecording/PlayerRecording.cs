@@ -100,10 +100,13 @@ public sealed class PlayerRecording : Tool
         frames.Clear();
         time = 0;
 
-        countdown = 3f;
-        countdownLerp = 0f;
-        ToolManager.Focus<PlayerRecording>();
-        Level.StartPauseEffects();
+        if (Module.Settings.RecordingCountdown)
+        {
+            countdown = 3f;
+            countdownLerp = 0f;
+            ToolManager.Focus<PlayerRecording>();
+            Level.StartPauseEffects();
+        }
 
         recording = true;
     }

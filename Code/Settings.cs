@@ -70,6 +70,10 @@ public sealed class Settings : EverestModuleSettings
     public void CreatePlayerRecordingEntry(TextMenu menu, bool _)
         => TextMenuHelper.CreateToolSwitch<PlayerRecording>(nameof(PlayerRecording), menu);
 
+    [SettingName("modoptions_ModderToolkit_RecordingCountdown")]
+    [SettingSubText("modoptions_ModderToolkit_RecordingCountdown_desc")]
+    public bool RecordingCountdown { get; set; } = true;
+
     [SettingName("modoptions_ModderToolkit_RecordingBinding")]
     [DefaultButtonBinding(0, Keys.F12)]
     public ButtonBinding RecordBinding { get; set; }
