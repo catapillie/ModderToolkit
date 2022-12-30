@@ -71,6 +71,10 @@ public sealed class Screenshot : Tool
     {
         if (Module.Settings.ScreenshotBinding.Pressed)
         {
+            // allow screenshotting only from the main pause menu
+            if (Level.Paused && !Level.PauseMainMenuOpen)
+                return;
+
             Module.Settings.ScreenshotBinding.ConsumePress();
             EnterScreenshot();
         }
