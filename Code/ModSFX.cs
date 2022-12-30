@@ -11,6 +11,6 @@ public static class ModSFX
     public const string sfx_recording_countdown_one = "event:/communal_tools/sfx/recording/countdown_one";
     public const string sfx_recording_go = "event:/communal_tools/sfx/recording/go";
     public const string sfx_recording_success = "event:/communal_tools/sfx/recording/success";
-    
+
     public const string BANK = "bank:/communal_tools";
 }

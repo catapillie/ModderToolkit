@@ -18,7 +18,7 @@ public static class ToolManager
     {
         if (Has<T>())
             throw new InvalidOperationException($"Tool of type {typeof(T)} is already registered!");
-        
+
         T tool = new();
         tools.Add(typeof(T), tool);
 
