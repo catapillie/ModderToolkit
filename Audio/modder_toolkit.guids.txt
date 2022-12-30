@@ -1,0 +1,9 @@
+{d72b0054-a947-4c3d-9ea2-39b39b27fd59} event:/modder_toolkit/sfx/screenshot/success
+{bb4b9439-ce0b-4b69-8449-d1ee53cf2a02} event:/modder_toolkit/sfx/screenshot/selection
+{d4c83269-d653-4051-bb10-60005237a3dd} event:/modder_toolkit/sfx/screenshot/fix_selection
+{409faf65-2999-48a7-af6b-a10363d0d734} event:/modder_toolkit/sfx/recording/countdown_three
+{81f21ffe-f5d7-4c58-9c46-03b54b23ff5e} event:/modder_toolkit/sfx/recording/countdown_two
+{c286df65-34fa-4d0f-875d-d79902c67059} event:/modder_toolkit/sfx/recording/countdown_one
+{4723a6a9-b220-4cfa-bbe5-ee3b6383bbb8} event:/modder_toolkit/sfx/recording/go
+{2fbce2ba-1f87-4f44-972e-4f37427b760e} event:/modder_toolkit/sfx/recording/success
+{5fb22f95-bbc1-4f41-9ca3-da8a93f066f7} bank:/modder_toolkit
