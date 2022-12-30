@@ -32,7 +32,7 @@ CommunalTools_screenshotting_dialog_instr_selection_b=Appuie sur ENTRÉE pour ca
 CommunalTools_screenshotting_dialog_hint_enter=Ou appuie sur ENTRÉE pour faire une capture de l'écran entier
 CommunalTools_screenshotting_dialog_info_scale=Les captures d'écrans ont actuellement une échelle de $scale. Cette option est modifiable dans les paramètres des mods.
 CommunalTools_screenshotting_dialog_info_exit=Tu peux quitter ce menu en appuyant sur ÉCHAP ou F11.
-CommunalTools_screenshotting_dialog_status_success=Sauvegardé sous $name avec succès
+CommunalTools_screenshotting_dialog_status_success=Sauvegardé sous "$path" avec succès.
 CommunalTools_screenshotting_dialog_status_error=Une erreur s'est produite lors de la capture d'écran.
 
 # -*- PLAYER RECORDING -*-
@@ -41,3 +41,9 @@ modoptions_CommunalTools_PlayerRecording=Enregistrements du joueur
 modoptions_CommunalTools_PlayerRecording_desc=Active ou désactive l'accès à l'outil d'enregistrement du joueur.
 
 modoptions_CommunalTools_RecordingBinding=Enregistrer le joueur
+
+CommunalTools_recording_dialog_status_success=$count images sauvegardées sous "$path" avec succès.
+CommunalTools_recording_dialog_status_error_player_death=Enregistrement annulé: joueur mort.
+CommunalTools_recording_dialog_status_error_player_lost=Enregistrement annulé: joueur perdu.
+CommunalTools_recording_dialog_status_error_room_transition=Enregistrement annulé: transition de niveau effectuée.
+CommunalTools_recording_dialog_countdown=Démarrage de l'enregistrement dans

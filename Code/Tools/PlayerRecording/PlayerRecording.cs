@@ -24,6 +24,12 @@ public sealed class PlayerRecording : Tool
     private float statusLerp;
     private string status;
 
+    private string dialog_status_success;
+    private string dialog_status_error_player_death;
+    private string dialog_status_error_player_lost;
+    private string dialog_status_error_room_transition;
+    private string dialog_countdown;
+
     public override void Restart()
     {
         recording = false;
@@ -38,6 +44,12 @@ public sealed class PlayerRecording : Tool
 
         statusLerp = 0f;
         status = string.Empty;
+
+        dialog_status_success = Dialog.Clean("CommunalTools_recording_dialog_status_success");
+        dialog_status_error_player_death = Dialog.Clean("CommunalTools_recording_dialog_status_error_player_death");
+        dialog_status_error_player_lost = Dialog.Clean("CommunalTools_recording_dialog_status_error_player_lost");
+        dialog_status_error_room_transition = Dialog.Clean("CommunalTools_recording_dialog_status_error_room_transition");
+        dialog_countdown = Dialog.Clean("CommunalTools_recording_dialog_countdown");
     }
 
     public override bool UpdateBefore()
@@ -111,7 +123,10 @@ public sealed class PlayerRecording : Tool
         Directory.CreateDirectory(Path.GetDirectoryName(path));
         PlaybackData.Export(frames, path);
 
-        SetStatus($"Successfully saved {frames.Count} frames in \"{path}\".");
+        string msg = dialog_status_success
+            .Replace("$count", frames.Count.ToString())
+            .Replace("$path", path);
+        SetStatus(msg);
     }
 
     private void SetStatus(string message)
@@ -177,20 +192,20 @@ public sealed class PlayerRecording : Tool
 
         if (Level.Transitioning)
         {
-            ErrorHalt("Recording cancelled: room transition was triggered.");
+            ErrorHalt(dialog_status_error_room_transition);
             return;
         }
 
         Player player = Level.Tracker.GetEntity<Player>();
         if (player is null)
         {
-            ErrorHalt("Recording cancelled: lost track of player.");
+            ErrorHalt(dialog_status_error_player_lost);
             return;
         }
 
         if (player.Dead)
         {
-            ErrorHalt("Recording cancelled: player died.");
+            ErrorHalt(dialog_status_error_player_death);
             return;
         }
 
@@ -219,7 +234,7 @@ public sealed class PlayerRecording : Tool
             Draw.Rect(0, 0, w, h, Color.Black * 0.5f * opacity);
 
             ActiveFont.DrawOutline(text, new(w / 2f, h / 2f), new(0.5f, 0.5f), Vector2.One * 5f, Color.White * opacity, 5, Color.Black * opacity);
-            ActiveFont.DrawOutline("Starting recording in", new(w / 2f, h / 2f - 128), new(0.5f, 0.5f), Vector2.One * 0.75f, Color.White * opacity, 2, Color.Black * opacity);
+            ActiveFont.DrawOutline(dialog_countdown, new(w / 2f, h / 2f - 128), new(0.5f, 0.5f), Vector2.One * 0.75f, Color.White * opacity, 2, Color.Black * opacity);
         }
 
         PixelFont font = Dialog.Languages["english"].Font;

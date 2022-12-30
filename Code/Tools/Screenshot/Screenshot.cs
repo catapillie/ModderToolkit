@@ -229,8 +229,9 @@ public sealed class Screenshot : Tool
 
             try
             {
-                SaveScreenshot($"Screenshots/{name}.png", x, y, w, h, scale);
-                status = dialog_status_success.Replace("$name", $"\"{name}.png\"");
+                string path = $"Screenshots/{name}.png";
+                SaveScreenshot(path, x, y, w, h, scale);
+                status = dialog_status_success.Replace("$path", path);
 
                 if (Module.Settings.ScreenshotAudio)
                     Audio.Play(ModSFX.sfx_screenshot_success);

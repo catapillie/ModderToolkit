@@ -32,7 +32,7 @@ CommunalTools_screenshotting_dialog_instr_selection_b=Press ENTER to capture thi
 CommunalTools_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen
 CommunalTools_screenshotting_dialog_info_scale=Screenshots are currently configured to be upscaled by $scale. This can be changed in mod settings.
 CommunalTools_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
-CommunalTools_screenshotting_dialog_status_success=Successfully saved as $name
+CommunalTools_screenshotting_dialog_status_success=Successfully saved as "$path".
 CommunalTools_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
 
 # -*- PLAYER RECORDING -*-
@@ -41,3 +41,9 @@ modoptions_CommunalTools_PlayerRecording=Player Recording
 modoptions_CommunalTools_PlayerRecording_desc=Enables or disables access to the recording tool.
 
 modoptions_CommunalTools_RecordingBinding=Record
+
+CommunalTools_recording_dialog_status_success=Successfully saved $count frames in "$path".
+CommunalTools_recording_dialog_status_error_player_death=Recording cancelled: player died.
+CommunalTools_recording_dialog_status_error_player_lost=Recording cancelled: lost track of player.
+CommunalTools_recording_dialog_status_error_room_transition=Recording cancelled: room transition was triggered.
+CommunalTools_recording_dialog_countdown=Starting recording in
