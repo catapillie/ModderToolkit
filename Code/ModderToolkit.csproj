@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net452</TargetFramework>
-        <AssemblyName>CommunalTools</AssemblyName>
-        <RootNamespace>Celeste.Mod.CommunalTools</RootNamespace>
+        <AssemblyName>ModderToolkit</AssemblyName>
+        <RootNamespace>Celeste.Mod.ModderToolkit</RootNamespace>
         <LangVersion>latest</LangVersion>
         <CelestePrefix Condition="'$(CelestePrefix)' == '' And Exists('..\..\Celeste.exe')">..\..</CelestePrefix>
         <CelestePrefix Condition="'$(CelestePrefix)' == '' And Exists('..\..\..\Celeste.exe')">..\..\..</CelestePrefix>

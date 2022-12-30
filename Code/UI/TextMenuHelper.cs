@@ -1,10 +1,10 @@
-﻿using Celeste.Mod.CommunalTools.Tools;
+﻿using Celeste.Mod.ModderToolkit.Tools;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Celeste.Mod.CommunalTools.UI;
+namespace Celeste.Mod.ModderToolkit.UI;
 
 public static class TextMenuHelper
 {

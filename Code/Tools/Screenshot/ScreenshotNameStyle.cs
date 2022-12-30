@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Celeste.Mod.CommunalTools.Tools.Screenshot;
+namespace Celeste.Mod.ModderToolkit.Tools.Screenshot;
 
 public enum ScreenshotNameStyle
 {
@@ -18,11 +18,11 @@ public enum ScreenshotNameStyle
 public static class ScreenshotNameStyleExt
 {
     public static string Name(this ScreenshotNameStyle screenshotNameStyle)
-        => Dialog.Clean($"modoptions_CommunalTools_ScreenshotNameStyle_{screenshotNameStyle}");
+        => Dialog.Clean($"modoptions_ModderToolkit_ScreenshotNameStyle_{screenshotNameStyle}");
 
     public static string Info(this ScreenshotNameStyle screenshotNameStyle)
-        => Dialog.Clean($"modoptions_CommunalTools_ScreenshotNameStyle_{screenshotNameStyle}_info") + "\n"
-         + Dialog.Clean("modoptions_CommunalTools_ScreenshotNameStyle_example") + ": " + screenshotNameStyle.GetName(DateTime.Now, "[...]");
+        => Dialog.Clean($"modoptions_ModderToolkit_ScreenshotNameStyle_{screenshotNameStyle}_info") + "\n"
+         + Dialog.Clean("modoptions_ModderToolkit_ScreenshotNameStyle_example") + ": " + screenshotNameStyle.GetName(DateTime.Now, "[...]");
 
     public static string GetName(this ScreenshotNameStyle screenshotNameStyle, DateTime dateTime, string room)
         => screenshotNameStyle switch

@@ -1,49 +1,49 @@
-modname_CommunalTools=Communal Tools
-modoptions_CommunalTools=Communal Tools
+modname_ModderToolkit=Modder's Toolkit
+modoptions_ModderToolkit=Modder's Toolkit
 
 
 # -*- SCREENSHOTTING -*-
-modoptions_CommunalTools_Screenshotting_header=Screenshot Tool
-modoptions_CommunalTools_Screenshotting=Screenshotting
-modoptions_CommunalTools_Screenshotting_desc=Enables or disables access to the screenshot tool.
+modoptions_ui_ModderToolkit_Screenshotting_header=Screenshot Tool
+modoptions_ui_ModderToolkit_Screenshotting=Screenshotting
+modoptions_ui_ModderToolkit_Screenshotting_desc=Enables or disables access to the screenshot tool.
 
-modoptions_CommunalTools_ScreenshotBinding=Screenshot
+modoptions_ModderToolkit_ScreenshotBinding=Screenshot
 
-modoptions_CommunalTools_NameStyle=Name Style
-modoptions_CommunalTools_NameStyle_desc=Determines how saved screenshots are named.
+modoptions_ModderToolkit_NameStyle=Name Style
+modoptions_ModderToolkit_NameStyle_desc=Determines how saved screenshots are named.
 
-modoptions_CommunalTools_ScreenshotNameStyle_Short=Short
-modoptions_CommunalTools_ScreenshotNameStyle_Short_info=Compact naming, that can be sorted by time.
-modoptions_CommunalTools_ScreenshotNameStyle_Long=Long
-modoptions_CommunalTools_ScreenshotNameStyle_Long_info=Longer, verbose names which are more human-readable.
-modoptions_CommunalTools_ScreenshotNameStyle_example=For example
+modoptions_ModderToolkit_ScreenshotNameStyle_Short=Short
+modoptions_ModderToolkit_ScreenshotNameStyle_Short_info=Compact naming, that can be sorted by time.
+modoptions_ModderToolkit_ScreenshotNameStyle_Long=Long
+modoptions_ModderToolkit_ScreenshotNameStyle_Long_info=Longer, verbose names which are more human-readable.
+modoptions_ModderToolkit_ScreenshotNameStyle_example=For example
 
-modoptions_CommunalTools_ScaleFactor=Scale Factor
-modoptions_CommunalTools_ScaleFactor_desc=The scale factor applied on screenshots before they are saved.
+modoptions_ModderToolkit_ScaleFactor=Scale Factor
+modoptions_ModderToolkit_ScaleFactor_desc=The scale factor applied on screenshots before they are saved.
 
-modoptions_CommunalTools_ScreenshotStatus=Screenshot Status
-modoptions_CommunalTools_ScreenshotStatus_desc=Whether screenshot status should be displayed after a save.
+modoptions_ModderToolkit_ScreenshotStatus=Screenshot Status
+modoptions_ModderToolkit_ScreenshotStatus_desc=Whether screenshot status should be displayed after a save.
 
-modoptions_CommunalTools_ScreenshotAudio=Screenshot Audio
-modoptions_CommunalTools_ScreenshotAudio_desc=Whether the screenshot interface plays any sound.
+modoptions_ModderToolkit_ScreenshotAudio=Screenshot Audio
+modoptions_ModderToolkit_ScreenshotAudio_desc=Whether the screenshot interface plays any sound.
 
-CommunalTools_screenshotting_dialog_instr_selection_a=Select a region to screenshot
-CommunalTools_screenshotting_dialog_instr_selection_b=Press ENTER to capture this region or hit ESCAPE to cancel the selection
-CommunalTools_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen
-CommunalTools_screenshotting_dialog_info_scale=Screenshots are currently configured to be upscaled by $scale. This can be changed in mod settings.
-CommunalTools_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
-CommunalTools_screenshotting_dialog_status_success=Successfully saved as "$path".
-CommunalTools_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
+ui_ModderToolkit_screenshotting_dialog_instr_selection_a=Select a region to screenshot
+ui_ModderToolkit_screenshotting_dialog_instr_selection_b=Press ENTER to capture this region or hit ESCAPE to cancel the selection
+ui_ModderToolkit_screenshotting_dialog_hint_enter=Or press ENTER to capture the entire screen
+ui_ModderToolkit_screenshotting_dialog_info_scale=Screenshots are currently configured to be upscaled by $scale. This can be changed in mod settings.
+ui_ModderToolkit_screenshotting_dialog_info_exit=You can exit this menu by pressing F11 or ESCAPE.
+ui_ModderToolkit_screenshotting_dialog_status_success=Successfully saved as "$path".
+ui_ModderToolkit_screenshotting_dialog_status_error=An error occurred when saving the screenshot.
 
 # -*- PLAYER RECORDING -*-
-modoptions_CommunalTools_PlayerRecording_header=Player Recording Tool
-modoptions_CommunalTools_PlayerRecording=Player Recording
-modoptions_CommunalTools_PlayerRecording_desc=Enables or disables access to the recording tool.
+modoptions_ModderToolkit_PlayerRecording_header=Player Recording Tool
+modoptions_ModderToolkit_PlayerRecording=Player Recording
+modoptions_ModderToolkit_PlayerRecording_desc=Enables or disables access to the recording tool.
 
-modoptions_CommunalTools_RecordingBinding=Record
+modoptions_ModderToolkit_RecordingBinding=Record
 
-CommunalTools_recording_dialog_status_success=Successfully saved $count frames in "$path".
-CommunalTools_recording_dialog_status_error_player_death=Recording cancelled: player died.
-CommunalTools_recording_dialog_status_error_player_lost=Recording cancelled: lost track of player.
-CommunalTools_recording_dialog_status_error_room_transition=Recording cancelled: room transition was triggered.
-CommunalTools_recording_dialog_countdown=Starting recording in
+ui_ModderToolkit_recording_dialog_status_success=Successfully saved $count frames in "$path".
+ui_ModderToolkit_recording_dialog_status_error_player_death=Recording cancelled: player died.
+ui_ModderToolkit_recording_dialog_status_error_player_lost=Recording cancelled: lost track of player.
+ui_ModderToolkit_recording_dialog_status_error_room_transition=Recording cancelled: room transition was triggered.
+ui_ModderToolkit_recording_dialog_countdown=Starting recording in

@@ -1,9 +1,9 @@
-﻿using Celeste.Mod.CommunalTools.Tools;
-using Celeste.Mod.CommunalTools.Tools.PlayerRecording;
-using Celeste.Mod.CommunalTools.Tools.Screenshot;
+﻿using Celeste.Mod.ModderToolkit.Tools;
+using Celeste.Mod.ModderToolkit.Tools.PlayerRecording;
+using Celeste.Mod.ModderToolkit.Tools.Screenshot;
 using System;
 
-namespace Celeste.Mod.CommunalTools;
+namespace Celeste.Mod.ModderToolkit;
 
 public class Module : EverestModule
 {
@@ -35,5 +35,5 @@ public class Module : EverestModule
     }
 
     internal static void Log(string message, LogLevel level = LogLevel.Verbose)
-        => Logger.Log(level, "CommunalTools", message);
+        => Logger.Log(level, "ModderToolkit", message);
 }

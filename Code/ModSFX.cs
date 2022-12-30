@@ -1,4 +1,4 @@
-﻿namespace Celeste.Mod.CommunalTools;
+﻿namespace Celeste.Mod.ModderToolkit;
 
 public static class ModSFX
 {

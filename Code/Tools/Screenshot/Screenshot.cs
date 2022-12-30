@@ -6,9 +6,9 @@ using Monocle;
 using System.IO;
 using System;
 using MonoMod.Utils;
-using Celeste.Mod.CommunalTools.Utility;
+using Celeste.Mod.ModderToolkit.Utility;
 
-namespace Celeste.Mod.CommunalTools.Tools.Screenshot;
+namespace Celeste.Mod.ModderToolkit.Tools.Screenshot;
 
 public sealed class Screenshot : Tool
 {
@@ -95,13 +95,13 @@ public sealed class Screenshot : Tool
         int scale = Module.Settings.ScaleFactor;
 
         // re-initializing dialogue so that we don't do it every frame
-        dialog_instr_selection_a = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_a");
-        dialog_instr_selection_b = Dialog.Clean("CommunalTools_screenshotting_dialog_instr_selection_b");
-        dialog_hint_enter = Dialog.Clean("CommunalTools_screenshotting_dialog_hint_enter");
-        dialog_info_scale = Dialog.Clean("CommunalTools_screenshotting_dialog_info_scale").Replace("$scale", scale.ToString());
-        dialog_info_exit = Dialog.Clean("CommunalTools_screenshotting_dialog_info_exit");
-        dialog_status_success = Dialog.Clean("CommunalTools_screenshotting_dialog_status_success");
-        dialog_status_error = Dialog.Clean("CommunalTools_screenshotting_dialog_status_error");
+        dialog_instr_selection_a = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_instr_selection_a");
+        dialog_instr_selection_b = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_instr_selection_b");
+        dialog_hint_enter = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_hint_enter");
+        dialog_info_scale = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_info_scale").Replace("$scale", scale.ToString());
+        dialog_info_exit = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_info_exit");
+        dialog_status_success = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_status_success");
+        dialog_status_error = Dialog.Clean("ui_ModderToolkit_screenshotting_dialog_status_error");
 
         status = string.Empty;
 

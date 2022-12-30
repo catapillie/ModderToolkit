@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Celeste.Mod.CommunalTools.Tools;
+namespace Celeste.Mod.ModderToolkit.Tools;
 
 /// <summary>
 /// Handler class for all <see cref="Tool"/>s.

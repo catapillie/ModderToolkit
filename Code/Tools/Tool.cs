@@ -1,4 +1,4 @@
-﻿namespace Celeste.Mod.CommunalTools.Tools;
+﻿namespace Celeste.Mod.ModderToolkit.Tools;
 
 /// <summary>
 /// Represents a base tool, which can execute code before and after a <see cref="Level"/>'s update and render calls.

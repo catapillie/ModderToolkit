@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
-using Celeste.Mod.CommunalTools.Utility;
+using Celeste.Mod.ModderToolkit.Utility;
 
-namespace Celeste.Mod.CommunalTools.Tools.PlayerRecording;
+namespace Celeste.Mod.ModderToolkit.Tools.PlayerRecording;
 
 public sealed class PlayerRecording : Tool
 {   
@@ -45,11 +45,11 @@ public sealed class PlayerRecording : Tool
         statusLerp = 0f;
         status = string.Empty;
 
-        dialog_status_success = Dialog.Clean("CommunalTools_recording_dialog_status_success");
-        dialog_status_error_player_death = Dialog.Clean("CommunalTools_recording_dialog_status_error_player_death");
-        dialog_status_error_player_lost = Dialog.Clean("CommunalTools_recording_dialog_status_error_player_lost");
-        dialog_status_error_room_transition = Dialog.Clean("CommunalTools_recording_dialog_status_error_room_transition");
-        dialog_countdown = Dialog.Clean("CommunalTools_recording_dialog_countdown");
+        dialog_status_success = Dialog.Clean("ui_ModderToolkit_recording_dialog_status_success");
+        dialog_status_error_player_death = Dialog.Clean("ui_ModderToolkit_recording_dialog_status_error_player_death");
+        dialog_status_error_player_lost = Dialog.Clean("ui_ModderToolkit_recording_dialog_status_error_player_lost");
+        dialog_status_error_room_transition = Dialog.Clean("ui_ModderToolkit_recording_dialog_status_error_room_transition");
+        dialog_countdown = Dialog.Clean("ui_ModderToolkit_recording_dialog_countdown");
     }
 
     public override bool UpdateBefore()

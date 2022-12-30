@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Celeste.Mod.CommunalTools.Utility;
+namespace Celeste.Mod.ModderToolkit.Utility;
 
 public static class LevelExt
 {
