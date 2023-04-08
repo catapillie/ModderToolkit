@@ -168,6 +168,9 @@ public sealed class Screenshot : Tool
         Draw.SpriteBatch.Draw(native, new Rectangle(0, 0, final.Width, final.Height), Color.White);
         Draw.SpriteBatch.End();
 
+        // XNA just won't allow the texture to be set as render target while saving it.
+        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+
         // saving in file.
         Directory.CreateDirectory(Path.GetDirectoryName(path));
         using Stream stream = File.OpenWrite(path);
