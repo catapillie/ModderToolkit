@@ -6,8 +6,6 @@ using Monocle;
 using System.IO;
 using System;
 using Celeste.Mod.Helpers;
-using MonoMod.Utils;
-using Celeste.Mod.ModderToolkit.Utility;
 
 namespace Celeste.Mod.ModderToolkit.Tools;
 
