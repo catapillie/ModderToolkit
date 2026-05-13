@@ -1,6 +1,6 @@
 - Name: ModderToolkit
-  Version: 0.1.1
-  DLL: Code/bin/Debug/net452/ModderToolkit.dll
+  Version: 0.1.2
+  DLL: bin/ModderToolkit.dll
   Dependencies:
-    - Name: Everest
-      Version: 1.3761.0
+    - Name: EverestCore
+      Version: 1.6286.0
