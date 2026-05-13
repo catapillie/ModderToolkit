@@ -16,9 +16,9 @@ public static class TextMenuHelper
             HeightExtra = 0f
         };
 
-        List<TextMenu.Item> items = containingMenu.GetItems();
+        List<TextMenu.Item> items = containingMenu.Items;
         if (items.Contains(option))
-            TextMenuExt.Insert(containingMenu, items.IndexOf(option) + 1, descriptionText);
+            containingMenu.Insert(items.IndexOf(option) + 1, descriptionText);
 
         option.OnEnter = (Action)Delegate.Combine(option.OnEnter, () => { descriptionText.FadeVisible = true; });
         option.OnLeave = (Action)Delegate.Combine(option.OnLeave, () => { descriptionText.FadeVisible = false; });
@@ -34,9 +34,9 @@ public static class TextMenuHelper
             HeightExtra = 0f
         };
 
-        List<TextMenu.Item> items = containingMenu.GetItems();
+        List<TextMenu.Item> items = containingMenu.Items;
         if (items.Contains(option))
-            TextMenuExt.Insert(containingMenu, items.IndexOf(option) + 1, descriptionText);
+            containingMenu.Insert(items.IndexOf(option) + 1, descriptionText);
 
         option.OnEnter = (Action)Delegate.Combine(option.OnEnter, () => { descriptionText.FadeVisible = true; });
         option.OnLeave = (Action)Delegate.Combine(option.OnLeave, () => { descriptionText.FadeVisible = false; });
