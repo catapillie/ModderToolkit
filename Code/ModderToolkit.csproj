@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="..\..\Cache\CelesteNet.Client.CelesteNet.Client.dll" Private="false" />
+        <Reference Include=".\lib-stripped\CelesteNet.Client.dll" Private="false" />
     </ItemGroup>
 
     <ItemGroup>
