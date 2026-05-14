@@ -12,10 +12,8 @@ namespace Celeste.Mod.ModderToolkit.Tools;
 
 public sealed class Screenshot : Tool
 {
-    private static readonly Rectangle bounds = new(0, 0, 320, 180);
-
-    private readonly RenderTarget2D buffer = new(Engine.Graphics.GraphicsDevice, 320, 180);
-    private readonly RenderTarget2D overlay = new(Engine.Graphics.GraphicsDevice, 320, 180);
+    private const int defaultWidth = 320, defaultHeight = 180;
+    private RenderTarget2D buffer, overlay;
 
     private bool screenshotting;
 
@@ -84,6 +82,13 @@ public sealed class Screenshot : Tool
     {
         ToolManager.Focus<Screenshot>();
 
+        var gpuBuffer = GameplayBuffers.Gameplay;
+        int screenWidth = gpuBuffer?.Width ?? defaultWidth;
+        int screenHeight = gpuBuffer?.Height ?? defaultHeight;
+
+        buffer = new(Engine.Graphics.GraphicsDevice, screenWidth, screenHeight);
+        overlay = new(Engine.Graphics.GraphicsDevice, screenWidth, screenHeight);
+
         // capturing frame into buffer
         Engine.Instance.GraphicsDevice.SetRenderTarget(buffer);
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
@@ -122,6 +127,9 @@ public sealed class Screenshot : Tool
     {
         ToolManager.Release<Screenshot>();
 
+        buffer.Dispose(); buffer = null;
+        overlay.Dispose(); overlay = null;
+
         statusLerp = 14;
         Engine.Instance.IsMouseVisible = false;
         screenshotting = false;
@@ -147,6 +155,11 @@ public sealed class Screenshot : Tool
         if (h <= 0)
             throw new ArgumentOutOfRangeException(nameof(h), "Screenshot height must be stricly positive");
 
+        var gpuBuffer = GameplayBuffers.Gameplay;
+        int screenWidth = gpuBuffer?.Width ?? defaultWidth;
+        int screenHeight = gpuBuffer?.Height ?? defaultHeight;
+
+        Rectangle bounds = new(0, 0, screenWidth, screenHeight);
         Rectangle region = new(x, y, w, h);
 
         if (!bounds.Contains(region))
@@ -185,9 +198,14 @@ public sealed class Screenshot : Tool
         focusLerp = Calc.Approach(focusLerp, MInput.Mouse.CheckLeftButton || focusing ? 1f : 0f, Engine.DeltaTime * 3f);
         helpLerp = Calc.Approach(helpLerp, focusing && !MInput.Mouse.CheckLeftButton ? 1f : 0f, Engine.DeltaTime * 4f);
 
+        var gpuBuffer = GameplayBuffers.Gameplay;
+        int sw = gpuBuffer?.Width ?? defaultWidth;
+        int sh = gpuBuffer?.Height ?? defaultHeight;
+
         if (MInput.Mouse.CheckLeftButton)
         {
-            mouse = (MInput.Mouse.Position / 6f).Floor().Clamp(0, 0, 320 - 1, 180 - 1);
+            float mouseScaleFactor = 1920.0f / sw;
+            mouse = (MInput.Mouse.Position / mouseScaleFactor).Floor().Clamp(0, 0, sw - 1, sh - 1);
             if (MInput.Mouse.PressedLeftButton)
             {
                 if (!focusing)
@@ -226,8 +244,8 @@ public sealed class Screenshot : Tool
 
             int x = focusing ? (int)sa.X : 0;
             int y = focusing ? (int)sa.Y : 0;
-            int w = focusing ? (int)(sb.X - sa.X) + 1 : 320;
-            int h = focusing ? (int)(sb.Y - sa.Y) + 1 : 180;
+            int w = focusing ? (int)(sb.X - sa.X) + 1 : sw;
+            int h = focusing ? (int)(sb.Y - sa.Y) + 1 : sh;
 
             DateTime now = DateTime.Now;
             string room = Level.Session.Level;
@@ -313,24 +331,29 @@ public sealed class Screenshot : Tool
 
     private void RenderOverlay()
     {
+        var gpuBuffer = GameplayBuffers.Gameplay;
+        int sw = gpuBuffer?.Width ?? defaultWidth;
+        int sh = gpuBuffer?.Height ?? defaultHeight;
+
         Engine.Instance.GraphicsDevice.SetRenderTarget(overlay);
         Engine.Instance.GraphicsDevice.Clear(Color.Transparent);
 
-        Vector2 mouse = (MInput.Mouse.Position / 6f).Floor();
+        float mouseScaleFactor = 1920.0f / sw;
+        Vector2 mouse = (MInput.Mouse.Position / mouseScaleFactor).Floor();
         Color background = Color.Black * (Ease.SineInOut(fadeLerp) * 0.45f + Ease.SineInOut(focusLerp) * 0.45f);
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
         if (focusing)
         {
-            Draw.Rect(0, 0, sa.X, 180, background);
-            Draw.Rect(sa.X, 0, 320 - sa.X, sa.Y, background);
-            Draw.Rect(sa.X, sb.Y + 1, 320 - sa.X, 180 - sb.Y, background);
-            Draw.Rect(sb.X + 1, sa.Y, 320 - sb.X, sb.Y - sa.Y + 1, background);
+            Draw.Rect(0, 0, sa.X, sh, background);
+            Draw.Rect(sa.X, 0, sw - sa.X, sa.Y, background);
+            Draw.Rect(sa.X, sb.Y + 1, sw - sa.X, sh - sb.Y, background);
+            Draw.Rect(sb.X + 1, sa.Y, sw - sb.X, sb.Y - sa.Y + 1, background);
         }
         else
         {
-            Draw.Rect(0, 0, 320, 180, background);
+            Draw.Rect(0, 0, sw, sh, background);
         }
 
         Draw.SpriteBatch.End();
@@ -341,12 +364,11 @@ public sealed class Screenshot : Tool
         Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
 
-        Matrix matrix = Matrix.CreateScale(6f) * Engine.ScreenMatrix;
+        Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
 
-        Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, matrix);
-
-        Draw.SpriteBatch.Draw(buffer, Vector2.Zero, Color.White);
-        Draw.SpriteBatch.Draw(overlay, Vector2.Zero, Color.White);
+        Rectangle dest = new(0, 0, 1920, 1080);
+        Draw.SpriteBatch.Draw(buffer, dest, null, Color.White);
+        Draw.SpriteBatch.Draw(overlay, dest, null, Color.White);
 
         Draw.SpriteBatch.End();
 
