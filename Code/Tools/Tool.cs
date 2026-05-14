@@ -42,12 +42,18 @@ public abstract class Tool
     /// <summary>
     /// Called before <see cref="Level.Render"/>.
     /// </summary>
+    /// <remarks>
+    /// When changing the RenderTarget to <c>null</c>, set it to <see cref="Utility.CelesteNetHelper.GetFakeRenderTarget"/> instead.
+    /// </remarks>
     /// <returns>A <see cref="bool"/> that determines whether the current <see cref="Level"/> itself should be rendered, or skipped when <c>false</c> is returned.</returns>
     public virtual bool RenderBefore() => true;
 
     /// <summary>
     /// Called after <see cref="Level.Render"/>.
     /// </summary>
+    /// <remarks>
+    /// When changing the RenderTarget to <c>null</c>, set it to <see cref="Utility.CelesteNetHelper.GetFakeRenderTarget"/> instead.
+    /// </remarks>
     public virtual void RenderAfter() { }
 
     /// <summary>

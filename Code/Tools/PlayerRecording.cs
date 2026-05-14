@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Monocle;
 using System.Collections.Generic;
 using System;
@@ -225,7 +224,7 @@ public sealed class PlayerRecording : Tool
 
     public override void RenderAfter()
     {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+        Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
 
         int w = Engine.Width;
         int h = Engine.Height;

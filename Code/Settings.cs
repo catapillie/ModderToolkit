@@ -1,8 +1,6 @@
 using Celeste.Mod.ModderToolkit.Tools;
 using Celeste.Mod.ModderToolkit.UI;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Linq;
 
 namespace Celeste.Mod.ModderToolkit;
 

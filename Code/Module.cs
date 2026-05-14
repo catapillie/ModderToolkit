@@ -13,6 +13,13 @@ public class Module : EverestModule
     public Module()
     {
         Instance = this;
+#if DEBUG
+        // debug builds use verbose logging
+        Logger.SetLogLevel(nameof(ModderToolkit), LogLevel.Verbose);
+#else
+        // release builds use info logging to reduce spam in log files
+        Logger.SetLogLevel(nameof(ModderToolkit), LogLevel.Info);
+#endif
     }
 
     public override void Initialize()
