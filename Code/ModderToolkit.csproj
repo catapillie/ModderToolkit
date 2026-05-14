@@ -23,6 +23,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Reference Include="..\..\Cache\CelesteNet.Client.CelesteNet.Client.dll" Private="false" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="CelesteMod.Publicizer" Version="*" CelesteAssembly="$(CelestePrefix)\Celeste.dll" />
         <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll" Private="false" />
         <Reference Include="$(CelestePrefix)\FNA.dll" Private="false" />

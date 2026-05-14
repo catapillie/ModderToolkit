@@ -6,6 +6,7 @@ using Monocle;
 using System.IO;
 using System;
 using Celeste.Mod.Helpers;
+using Celeste.Mod.ModderToolkit.Utility;
 
 namespace Celeste.Mod.ModderToolkit.Tools;
 
@@ -168,7 +169,7 @@ public sealed class Screenshot : Tool
         Draw.SpriteBatch.End();
 
         // XNA just won't allow the texture to be set as render target while saving it.
-        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+        Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
 
         // saving in file.
         Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -337,7 +338,7 @@ public sealed class Screenshot : Tool
 
     private void RenderPreview()
     {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+        Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
         Engine.Instance.GraphicsDevice.Clear(Color.Black);
 
         Matrix matrix = Matrix.CreateScale(6f) * Engine.ScreenMatrix;
@@ -390,7 +391,7 @@ public sealed class Screenshot : Tool
 
     private void RenderStatus()
     {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+        Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
 
         Draw.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Engine.ScreenMatrix);
 

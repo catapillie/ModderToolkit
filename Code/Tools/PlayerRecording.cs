@@ -224,7 +224,7 @@ public sealed class PlayerRecording : Tool
 
     public override void RenderAfter()
     {
-        Engine.Instance.GraphicsDevice.SetRenderTarget(null);
+        Engine.Instance.GraphicsDevice.SetRenderTarget(CelesteNetHelper.GetFakeRenderTarget());
 
         int w = Engine.Width;
         int h = Engine.Height;
