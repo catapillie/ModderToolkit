@@ -35,4 +35,4 @@ Note that the recording might cancel automatically in somes cases, for instance,
 
 ## Bugs & issues
 If you happen to find a bug in this mod, please [open a new issue](https://github.com/catapillie/ModderToolkit/issues/new).
-If you're unable to do so, I invite you to message me at `@catapillie#1927` on Discord, or find me on the [Mt. Celeste Climbing Association](https://discord.gg/celeste) server!
+If you're unable to do so, I invite you to message me at `@catapillie` on Discord, or find me on the [Mt. Celeste Climbing Association](https://discord.gg/celeste) server!
